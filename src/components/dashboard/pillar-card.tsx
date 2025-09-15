@@ -6,6 +6,8 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import type { ReactNode } from "react";
+import { cn } from "@/lib/utils";
+
 
 type PillarCardProps = {
   title: string;
@@ -13,6 +15,7 @@ type PillarCardProps = {
   value: number;
   format: "currency" | "percentage" | "number";
   subtitle?: string;
+  iconBg?: string;
 };
 
 function formatValue(value: number, format: PillarCardProps["format"]) {
@@ -27,19 +30,21 @@ function formatValue(value: number, format: PillarCardProps["format"]) {
     case "percentage":
       return `${value}%`;
     case "number":
-      return value.toString();
+      return new Intl.NumberFormat('en-US').format(value);
   }
 }
 
-export function PillarCard({ title, icon, value, format, subtitle }: PillarCardProps) {
+export function PillarCard({ title, icon, value, format, subtitle, iconBg }: PillarCardProps) {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium">{title}</CardTitle>
-        <div className="text-muted-foreground">{icon}</div>
+        <div className={cn("p-2 rounded-md", iconBg)}>
+          {icon}
+        </div>
       </CardHeader>
       <CardContent>
         <div className="text-2xl font-bold">{formatValue(value, format)}</div>
+        <p className="text-xs text-muted-foreground">{title}</p>
         {subtitle && (
           <p className="text-xs text-muted-foreground">{subtitle}</p>
         )}

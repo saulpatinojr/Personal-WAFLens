@@ -52,37 +52,39 @@ export default function Home() {
           <div className="p-4 md:p-8 pt-6">
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-5">
               <PillarCard
-                title="Users"
-                icon={<Users />}
-                value={2350}
+                title="Employees"
+                icon={<Users className="text-blue-500" />}
+                value={96}
                 format="number"
-                subtitle="+180.1% from last month"
+                iconBg="bg-blue-100"
               />
               <PillarCard
-                title="Sessions"
-                icon={<Building />}
-                value={1234}
+                title="Clients"
+                icon={<Building className="text-green-500" />}
+                value={3650}
                 format="number"
-                subtitle="+19% from last month"
+                iconBg="bg-green-100"
               />
               <PillarCard
-                title="Spend"
-                icon={<DollarSign />}
-                value={125034.0}
+                title="Projects"
+                icon={<FileText className="text-orange-500" />}
+                value={356}
+                format="number"
+                iconBg="bg-orange-100"
+              />
+              <PillarCard
+                title="Events"
+                icon={<Zap className="text-indigo-500" />}
+                value={696}
+                format="number"
+                iconBg="bg-indigo-100"
+              />
+              <PillarCard
+                title="Payroll"
+                icon={<DollarSign className="text-red-500" />}
+                value={96000}
                 format="currency"
-                subtitle="+20.1% from last month"
-              />
-              <PillarCard
-                title="Reliability"
-                icon={<Zap />}
-                value={95}
-                format="percentage"
-              />
-              <PillarCard
-                title="Security"
-                icon={<Shield />}
-                value={82}
-                format="percentage"
+                iconBg="bg-red-100"
               />
             </div>
             <div className="grid gap-6 mt-6">
