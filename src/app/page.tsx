@@ -3,21 +3,19 @@ import {
   Sidebar,
   SidebarHeader,
   SidebarContent,
-  SidebarFooter,
   SidebarInset,
 } from '@/components/ui/sidebar';
 import { MainNav } from '@/components/dashboard/main-nav';
 import { DashboardHeader } from '@/components/dashboard/header';
 import { PillarCard } from '@/components/dashboard/pillar-card';
 import {
-  ShieldCheck,
-  HeartPulse,
-  DollarSign,
-  Briefcase,
-  Gauge,
+  Shield,
+  Heart,
+  TrendingUp,
+  Target,
+  BadgeCent,
 } from 'lucide-react';
-import { PillarObservanceChart } from '@/components/dashboard/pillar-observance-chart';
-import { ActionItemsTable } from '@/components/dashboard/action-items-table';
+
 import { Logo } from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
@@ -34,59 +32,42 @@ export default function Home() {
                 <span className="sr-only">Home</span>
               </Link>
             </Button>
-            <h2 className="text-lg font-semibold tracking-tight">WAFLens</h2>
+            <h2 className="text-lg font-semibold tracking-tight">Azure Lens</h2>
           </div>
         </SidebarHeader>
         <SidebarContent>
           <MainNav />
         </SidebarContent>
-        <SidebarFooter>
-          {/* Footer content can go here */}
-        </SidebarFooter>
       </Sidebar>
       <SidebarInset>
         <DashboardHeader />
         <main className="flex-1 space-y-4 p-4 md:p-8 pt-6">
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+          <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
             <PillarCard
               title="Reliability"
-              value={99.95}
-              format="percentage"
-              subtitle="Uptime Last 30 Days"
-              icon={<HeartPulse />}
+              description="Ensures workloads can recover from failures and meet uptime commitments by incorporating redundancy and resiliency."
+              icon={<Heart />}
             />
             <PillarCard
               title="Security"
-              value={88}
-              format="score"
-              subtitle="Based on CIS Benchmarks"
-              icon={<ShieldCheck />}
+              description="Protects workloads by maintaining confidentiality, integrity, and availability, leveraging Azure's multi-layered security features."
+              icon={<Shield />}
             />
             <PillarCard
               title="Cost Optimization"
-              value={2150}
-              format="currency"
-              subtitle="Potential Monthly Savings"
-              icon={<DollarSign />}
+              description="Focuses on reducing unnecessary expenses while maximizing operational efficiency and aligning costs with business objectives."
+              icon={<BadgeCent />}
             />
             <PillarCard
               title="Operational Excellence"
-              value={75}
-              icon={<Briefcase />}
+              description="Emphasizes reliable deployments, observability, and automated processes to minimize production issues."
+              icon={<TrendingUp />}
             />
             <PillarCard
               title="Performance Efficiency"
-              value={90}
-              icon={<Gauge />}
+              description="Enables workloads to scale dynamically and meet performance demands through efficient resource utilization."
+              icon={<Target />}
             />
-          </div>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-            <div className="col-span-full lg:col-span-4">
-              <PillarObservanceChart />
-            </div>
-            <div className="col-span-full lg:col-span-3">
-              <ActionItemsTable />
-            </div>
           </div>
         </main>
       </SidebarInset>

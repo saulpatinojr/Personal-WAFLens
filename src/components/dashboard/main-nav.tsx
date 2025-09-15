@@ -7,7 +7,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from "@/components/ui/sidebar";
-import { ShieldCheck, FileCode, Bot } from "lucide-react";
+import { AreaChart, FileCode } from "lucide-react";
 
 export function MainNav() {
   const pathname = usePathname();
@@ -15,18 +15,13 @@ export function MainNav() {
   const menuItems = [
     {
       href: "/",
-      label: "Azure Lens",
-      icon: ShieldCheck,
+      label: "Well Architected Overview",
+      icon: AreaChart,
     },
     {
       href: "#",
       label: "Files",
       icon: FileCode,
-    },
-    {
-      href: "#",
-      label: "AI Settings",
-      icon: Bot,
     },
   ];
 

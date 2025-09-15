@@ -3,42 +3,34 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
+  CardDescription,
+  CardFooter
 } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
+import { Button } from "@/components/ui/button";
 import type { ReactNode } from "react";
 
 type PillarCardProps = {
   title: string;
-  value: number;
+  description: string;
   icon: ReactNode;
-  format?: "score" | "percentage" | "currency";
-  subtitle?: string;
 };
 
-export function PillarCard({ title, value, icon, format = "score", subtitle }: PillarCardProps) {
-  const renderValue = () => {
-    switch (format) {
-      case "percentage":
-        return `${value}%`;
-      case "currency":
-        return `$${value.toLocaleString()}`;
-      case "score":
-      default:
-        return `${value}/100`;
-    }
-  };
-
+export function PillarCard({ title, description, icon }: PillarCardProps) {
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium">{title}</CardTitle>
+      <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
+        <div>
+          <CardTitle className="text-lg font-semibold">{title}</CardTitle>
+          <CardDescription className="pt-2 text-sm text-muted-foreground">{description}</CardDescription>
+        </div>
         <div className="text-muted-foreground">{icon}</div>
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold">{renderValue()}</div>
-        {subtitle && <p className="text-xs text-muted-foreground">{subtitle}</p>}
-        {format === "score" && <Progress value={value} className="mt-2 h-2" />}
       </CardContent>
+       <CardFooter className="gap-2">
+          <Button variant="destructive">Issues</Button>
+          <Button variant="outline" className="bg-accent text-accent-foreground hover:bg-accent/90">Recommendations</Button>
+        </CardFooter>
     </Card>
   );
 }
