@@ -4,6 +4,7 @@ import {
   SidebarHeader,
   SidebarContent,
   SidebarInset,
+  SidebarRail,
 } from '@/components/ui/sidebar';
 import { MainNav } from '@/components/dashboard/main-nav';
 import { DashboardHeader } from '@/components/dashboard/header';
@@ -14,6 +15,9 @@ import {
   TrendingUp,
   Landmark,
   FileText,
+  DollarSign,
+  Users,
+  Building,
 } from 'lucide-react';
 
 import { Logo } from '@/components/icons';
@@ -21,18 +25,12 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { PillarObservanceChart } from '@/components/dashboard/pillar-observance-chart';
 import { ActionItemsTable } from '@/components/dashboard/action-items-table';
-import { ContextDiagramsCard } from '@/components/dashboard/context-diagrams-card';
-import { HighLevelSystemDiagramsCard } from '@/components/dashboard/high-level-system-diagrams-card';
-import { ComponentDiagramsCard } from '@/components/dashboard/component-diagrams-card';
-import { DeploymentDiagramsCard } from '@/components/dashboard/deployment-diagrams-card';
-import { DataFlowDiagramsCard } from '@/components/dashboard/data-flow-diagrams-card';
-import { SequenceDiagramsCard } from '@/components/dashboard/sequence-diagrams-card';
-import { UserJourneyDiagramsCard } from '@/components/dashboard/user-journey-diagrams-card';
 
 export default function Home() {
   return (
     <SidebarProvider>
       <Sidebar>
+        <SidebarRail />
         <SidebarHeader>
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="icon" className="size-9" asChild>
@@ -54,6 +52,27 @@ export default function Home() {
           <div className="p-4 md:p-8 pt-6">
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-5">
               <PillarCard
+                title="Users"
+                icon={<Users />}
+                value={2350}
+                format="number"
+                subtitle="+180.1% from last month"
+              />
+              <PillarCard
+                title="Sessions"
+                icon={<Building />}
+                value={1234}
+                format="number"
+                subtitle="+19% from last month"
+              />
+              <PillarCard
+                title="Spend"
+                icon={<DollarSign />}
+                value={125034.0}
+                format="currency"
+                subtitle="+20.1% from last month"
+              />
+              <PillarCard
                 title="Reliability"
                 icon={<Zap />}
                 value={95}
@@ -65,37 +84,12 @@ export default function Home() {
                 value={82}
                 format="percentage"
               />
-              <PillarCard
-                title="Cost Optimization"
-                icon={<Landmark />}
-                value={60}
-                format="percentage"
-              />
-              <PillarCard
-                title="Operational Excellence"
-                icon={<TrendingUp />}
-                value={75}
-                format="percentage"
-              />
-              <PillarCard
-                title="Performance Efficiency"
-                icon={<FileText />}
-                value={90}
-                format="percentage"
-              />
             </div>
-            <div className="grid gap-6 mt-6 md:grid-cols-2">
+            <div className="grid gap-6 mt-6">
               <PillarObservanceChart />
-              <ContextDiagramsCard />
-              <HighLevelSystemDiagramsCard />
-              <ComponentDiagramsCard />
-              <DeploymentDiagramsCard />
-              <DataFlowDiagramsCard />
-              <SequenceDiagramsCard />
-              <UserJourneyDiagramsCard />
             </div>
           </div>
-          <div className="p-4 md:p-8">
+          <div className="p-4 md:p-8 mt-auto">
             <ActionItemsTable />
           </div>
         </main>
