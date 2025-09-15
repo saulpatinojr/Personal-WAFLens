@@ -13,7 +13,7 @@ This project is a web application built with Next.js, TypeScript, and Firebase. 
 1.  **Clone the repository:**
     ```bash
     git clone <your-repository-url>
-    cd waflens
+    cd waflens-7c15e
     ```
 2.  **Install root dependencies:**
     These are the dependencies for your Next.js front-end application.
@@ -37,28 +37,28 @@ This project is a web application built with Next.js, TypeScript, and Firebase. 
 - Once created, you'll need the **Project ID**.
 
 ### 2. Link Your Local Project
-- Update the `.firebaserc` file with your Firebase Project ID. Replace `waflens-7c15e` with the actual ID from the Firebase console.
-    ```json
-    {
-      "projects": {
-        "default": "waflens-7c15e"
-      }
-    }
-    ```
+- The `.firebaserc` file is already configured with your project ID: `waflens-7c15e`.
 - Log in to Firebase using the CLI:
     ```bash
     firebase login
     ```
 
 ### 3. Environment Variables
-- For sensitive data used in your front-end, create a `.env.local` file in the root directory. This file is ignored by Git and is safe for local development secrets.
+
+#### Gemini API Key
+This project uses Genkit to interact with Google's Gemini models, which requires an API key. You can get a key from [Google AI Studio](https://aistudio.google.com/app/apikey).
+
+-   **Local Development**: Create a file named `.env.local` in the root of your project and add your API key to it:
     ```
-    NEXT_PUBLIC_API_KEY="your-public-api-key"
+    GEMINI_API_KEY="your-api-key-here"
     ```
-- For Firebase Functions, set environment variables using the Firebase CLI. This is the secure way to store secrets like API keys for your backend services.
-    ```bash
-    firebase functions:config:set your_service.key="your-api-key" your_service.id="your-service-id"
-    ```
+    This file is included in `.gitignore` and will not be committed to your repository.
+
+-   **Production (Firebase)**: You must add the Gemini API key as a secret in GitHub Actions so the deployment workflow can access it.
+    1. In your GitHub repository, go to **Settings > Secrets and variables > Actions**.
+    2. Click **New repository secret**.
+    3. Name the secret `GEMINI_API_KEY`.
+    4. Paste your API key as the value.
 
 ---
 
@@ -87,16 +87,18 @@ This project is configured for Continuous Integration and Continuous Deployment 
     - The Firebase Functions in the `functions/` directory are deployed to **Firebase Functions**.
 
 ### GitHub Secrets Configuration
-For the deployment to work, you must configure a secret in your GitHub repository settings:
+For the deployment to work, you must configure secrets in your GitHub repository settings:
 
-1.  **Create a Service Account Key:**
+1.  **`FIREBASE_SERVICE_ACCOUNT_WAFLENS_7C15E`**:
     - In the Firebase Console, go to **Project settings > Service accounts**.
     - Click **Generate new private key** to download a JSON file.
-2.  **Add the Secret to GitHub:**
     - In your GitHub repository, go to **Settings > Secrets and variables > Actions**.
     - Click **New repository secret**.
     - Name the secret `FIREBASE_SERVICE_ACCOUNT_WAFLENS_7C15E`.
     - Paste the entire content of the downloaded JSON file as the secret's value.
+
+2.  **`GEMINI_API_KEY`**:
+    - Follow the steps above to add your Gemini API key as a secret named `GEMINI_API_KEY`.
 
 ---
 
