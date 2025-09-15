@@ -11,25 +11,43 @@ import type { ReactNode } from "react";
 
 type PillarCardProps = {
   title: string;
-  description: string;
   icon: ReactNode;
+  value: number;
+  format: "currency" | "percentage" | "number";
+  subtitle?: string;
 };
 
-export function PillarCard({ title, description, icon }: PillarCardProps) {
+function formatValue(value: number, format: PillarCardProps["format"]) {
+  switch (format) {
+    case "currency":
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      }).format(value);
+    case "percentage":
+      return `${value}%`;
+    case "number":
+      return value.toString();
+  }
+}
+
+export function PillarCard({ title, icon, value, format, subtitle }: PillarCardProps) {
   return (
     <Card>
       <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
-        <div>
-          <CardTitle className="text-lg font-semibold">{title}</CardTitle>
-          <CardDescription className="pt-2 text-sm text-muted-foreground">{description}</CardDescription>
+        <div className="flex flex-col">
+         <CardTitle className="text-sm font-medium">{title}</CardTitle>
+          {subtitle && <CardDescription className="text-xs text-muted-foreground">{subtitle}</CardDescription>}
         </div>
         <div className="text-muted-foreground">{icon}</div>
       </CardHeader>
       <CardContent>
+        <div className="text-2xl font-bold">{formatValue(value, format)}</div>
       </CardContent>
        <CardFooter className="gap-2">
-          <Button variant="destructive">Issues</Button>
-          <Button variant="outline" className="bg-accent text-accent-foreground hover:bg-accent/90">Recommendations</Button>
+          <Button variant="outline">View Details</Button>
         </CardFooter>
     </Card>
   );

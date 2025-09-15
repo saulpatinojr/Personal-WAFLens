@@ -10,10 +10,10 @@ import { DashboardHeader } from '@/components/dashboard/header';
 import { PillarCard } from '@/components/dashboard/pillar-card';
 import {
   Shield,
-  Heart,
+  Zap,
   TrendingUp,
-  Target,
-  BadgeCent,
+  Landmark,
+  FileText,
 } from 'lucide-react';
 
 import { Logo } from '@/components/icons';
@@ -34,7 +34,7 @@ export default function Home() {
                 <span className="sr-only">Home</span>
               </Link>
             </Button>
-            <h2 className="text-lg font-semibold tracking-tight">Azure Lens</h2>
+            <h2 className="text-lg font-semibold tracking-tight">WAFLens</h2>
           </div>
         </SidebarHeader>
         <SidebarContent>
@@ -46,29 +46,37 @@ export default function Home() {
         <main className="flex-1 space-y-4 p-4 md:p-8 pt-6">
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-5">
             <PillarCard
-              title="Reliability"
-              description="Ensures workloads can recover from failures and meet uptime commitments by incorporating redundancy and resiliency."
-              icon={<Heart />}
+              title="Total Cost"
+              icon={<Landmark />}
+              value={125060}
+              format="currency"
             />
             <PillarCard
+              title="Resources"
+              icon={<FileText />}
+              value={17}
+              format="number"
+            />
+             <PillarCard
               title="Security"
-              description="Protects workloads by maintaining confidentiality, integrity, and availability, leveraging Azure's multi-layered security features."
               icon={<Shield />}
+              value={92}
+              format="percentage"
+              subtitle="Observance"
             />
             <PillarCard
-              title="Cost Optimization"
-              description="Focuses on reducing unnecessary expenses while maximizing operational efficiency and aligning costs with business objectives."
-              icon={<BadgeCent />}
-            />
-            <PillarCard
-              title="Operational Excellence"
-              description="Emphasizes reliable deployments, observability, and automated processes to minimize production issues."
+              title="Avg. Performance"
               icon={<TrendingUp />}
+              value={88}
+              format="percentage"
+              subtitle="Efficiency"
             />
             <PillarCard
-              title="Performance Efficiency"
-              description="Enables workloads to scale dynamically and meet performance demands through efficient resource utilization."
-              icon={<Target />}
+              title="Avg. Reliability"
+              icon={<Zap />}
+              value={95}
+              format="percentage"
+              subtitle="Resiliency"
             />
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-7">
