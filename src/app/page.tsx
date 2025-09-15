@@ -19,6 +19,8 @@ import {
 import { Logo } from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { PillarObservanceChart } from '@/components/dashboard/pillar-observance-chart';
+import { ActionItemsTable } from '@/components/dashboard/action-items-table';
 
 export default function Home() {
   return (
@@ -42,7 +44,7 @@ export default function Home() {
       <SidebarInset>
         <DashboardHeader />
         <main className="flex-1 space-y-4 p-4 md:p-8 pt-6">
-          <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-5">
             <PillarCard
               title="Reliability"
               description="Ensures workloads can recover from failures and meet uptime commitments by incorporating redundancy and resiliency."
@@ -68,6 +70,14 @@ export default function Home() {
               description="Enables workloads to scale dynamically and meet performance demands through efficient resource utilization."
               icon={<Target />}
             />
+          </div>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-7">
+            <div className="lg:col-span-4">
+              <ActionItemsTable />
+            </div>
+            <div className="lg:col-span-3">
+              <PillarObservanceChart />
+            </div>
           </div>
         </main>
       </SidebarInset>
