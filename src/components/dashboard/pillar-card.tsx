@@ -4,9 +4,7 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-  CardFooter
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import type { ReactNode } from "react";
 
 type PillarCardProps = {
@@ -36,19 +34,16 @@ function formatValue(value: number, format: PillarCardProps["format"]) {
 export function PillarCard({ title, icon, value, format, subtitle }: PillarCardProps) {
   return (
     <Card>
-      <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
-        <div className="flex flex-col">
-         <CardTitle className="text-sm font-medium">{title}</CardTitle>
-          {subtitle && <CardDescription className="text-xs text-muted-foreground">{subtitle}</CardDescription>}
-        </div>
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <CardTitle className="text-sm font-medium">{title}</CardTitle>
         <div className="text-muted-foreground">{icon}</div>
       </CardHeader>
       <CardContent>
         <div className="text-2xl font-bold">{formatValue(value, format)}</div>
+        {subtitle && (
+          <p className="text-xs text-muted-foreground">{subtitle}</p>
+        )}
       </CardContent>
-       <CardFooter className="gap-2">
-          <Button variant="outline">View Details</Button>
-        </CardFooter>
     </Card>
   );
 }
