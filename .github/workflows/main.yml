@@ -15,12 +15,12 @@ jobs:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_YOUR_PROJECT_ID }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_WAFLENS_7C15E }}'
           channelId: live
-          projectId: your-project-id
+          projectId: waflens-7c15e
       - name: Deploy functions
         run: |
           cd functions
           npm ci
           cd ..
-          npx firebase-tools deploy --only functions --project your-project-id --force
+          npx firebase-tools deploy --only functions --project waflens-7c15e --force

@@ -37,11 +37,11 @@ This project is a web application built with Next.js, TypeScript, and Firebase. 
 - Once created, you'll need the **Project ID**.
 
 ### 2. Link Your Local Project
-- Update the `.firebaserc` file with your Firebase Project ID. Replace `your-project-id` with the actual ID from the Firebase console.
+- Update the `.firebaserc` file with your Firebase Project ID. Replace `waflens-7c15e` with the actual ID from the Firebase console.
     ```json
     {
       "projects": {
-        "default": "your-project-id"
+        "default": "waflens-7c15e"
       }
     }
     ```
@@ -95,7 +95,7 @@ For the deployment to work, you must configure a secret in your GitHub repositor
 2.  **Add the Secret to GitHub:**
     - In your GitHub repository, go to **Settings > Secrets and variables > Actions**.
     - Click **New repository secret**.
-    - Name the secret `FIREBASE_SERVICE_ACCOUNT_YOUR_PROJECT_ID` (replace `YOUR_PROJECT_ID` with your actual Firebase project ID).
+    - Name the secret `FIREBASE_SERVICE_ACCOUNT_WAFLENS_7C15E`.
     - Paste the entire content of the downloaded JSON file as the secret's value.
 
 ---
