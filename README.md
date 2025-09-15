@@ -1,61 +1,120 @@
 # WAFLens Project
 
-This project is a web application built with a modern front-end framework and Firebase services.
+This project is a web application built with Next.js, TypeScript, and Firebase. It's designed to be a well-structured, secure, and easily deployable application.
 
-## Project Setup
+## 🚀 Project Setup
 
 ### Prerequisites
-- Node.js and npm
-- Firebase CLI (`npm install -g firebase-tools`)
+- [Node.js](https://nodejs.org/) (v18 or later recommended)
+- [npm](https://www.npmjs.com/)
+- [Firebase CLI](https://firebase.google.com/docs/cli) (`npm install -g firebase-tools`)
 
 ### Installation
 1.  **Clone the repository:**
     ```bash
     git clone <your-repository-url>
-    cd <your-project-directory>
+    cd waflens
     ```
 2.  **Install root dependencies:**
+    These are the dependencies for your Next.js front-end application.
     ```bash
     npm install
     ```
 3.  **Install Firebase Functions dependencies:**
+    Navigate to the `functions` directory and install its specific dependencies.
     ```bash
     cd functions
     npm install
     cd ..
     ```
 
-### Configuration
-1.  **Firebase Project:**
-    - Create a Firebase project at [https://console.firebase.google.com/](https://console.firebase.google.com/).
-    - Update the `.firebaserc` file with your Firebase project ID.
-2.  **Environment Variables:**
-    - For sensitive data, use environment variables. A `.env.local` file can be created in the root for local development. This file is included in `.gitignore` and should not be committed.
-    - For Firebase Functions, set environment variables using the Firebase CLI:
-      ```bash
-      firebase functions:config:set your_service.key="your-api-key" your_service.id="your-service-id"
-      ```
+---
 
-## Available Scripts
+## 🔥 Firebase Configuration
 
--   `npm run dev`: Runs the front-end application in development mode.
+### 1. Create a Firebase Project
+- Go to the [Firebase Console](https://console.firebase.google.com/) and create a new project.
+- Once created, you'll need the **Project ID**.
+
+### 2. Link Your Local Project
+- Update the `.firebaserc` file with your Firebase Project ID. Replace `your-project-id` with the actual ID from the Firebase console.
+    ```json
+    {
+      "projects": {
+        "default": "your-project-id"
+      }
+    }
+    ```
+- Log in to Firebase using the CLI:
+    ```bash
+    firebase login
+    ```
+
+### 3. Environment Variables
+- For sensitive data used in your front-end, create a `.env.local` file in the root directory. This file is ignored by Git and is safe for local development secrets.
+    ```
+    NEXT_PUBLIC_API_KEY="your-public-api-key"
+    ```
+- For Firebase Functions, set environment variables using the Firebase CLI. This is the secure way to store secrets like API keys for your backend services.
+    ```bash
+    firebase functions:config:set your_service.key="your-api-key" your_service.id="your-service-id"
+    ```
+
+---
+
+## 📜 Available Scripts
+
+-   `npm run dev`: Runs the Next.js front-end in development mode.
 -   `npm run build`: Builds the application for production.
--   `npm start`: Starts the production server.
+-   `npm start`: Starts the production Next.js server.
+-   `npm run lint`: Lints the codebase for errors.
 
-### Firebase Functions Scripts (in `functions/` directory)
--   `npm run serve`: Emulates functions locally.
--   `npm run deploy`: Deploys functions to Firebase.
+### Firebase Functions Scripts (from the `functions/` directory)
+-   `npm run serve`: Emulates functions locally for testing.
+-   `npm run deploy`: Deploys only the functions to your Firebase project.
 
-## Deployment
+---
 
-This project is configured for continuous deployment using GitHub Actions.
+## 🚀 Deployment with GitHub Actions
 
-1.  **Push to `main`:** Any push to the `main` branch will trigger the workflow defined in `.github/workflows/main.yml`.
-2.  **Workflow Steps:**
-    -   Checks out the code.
-    -   Installs dependencies and builds the front-end application.
-    -   Deploys the built front-end to Firebase Hosting.
-    -   Deploys the Firebase Functions.
+This project is configured for Continuous Integration and Continuous Deployment (CI/CD) using GitHub Actions.
 
-3.  **GitHub Secrets:**
-    -   You must configure the `FIREBASE_SERVICE_ACCOUNT_YOUR_PROJECT_ID` secret in your GitHub repository settings. This is a JSON service account key for your Firebase project that allows GitHub Actions to authenticate with Firebase.
+### How It Works
+1.  **Trigger**: The workflow, defined in `.github/workflows/main.yml`, is automatically triggered on every push to the `main` branch.
+2.  **Build**: The workflow installs all dependencies and builds the Next.js application (`npm run build`).
+3.  **Deploy**:
+    - The built front-end application is deployed to **Firebase Hosting**.
+    - The Firebase Functions in the `functions/` directory are deployed to **Firebase Functions**.
+
+### GitHub Secrets Configuration
+For the deployment to work, you must configure a secret in your GitHub repository settings:
+
+1.  **Create a Service Account Key:**
+    - In the Firebase Console, go to **Project settings > Service accounts**.
+    - Click **Generate new private key** to download a JSON file.
+2.  **Add the Secret to GitHub:**
+    - In your GitHub repository, go to **Settings > Secrets and variables > Actions**.
+    - Click **New repository secret**.
+    - Name the secret `FIREBASE_SERVICE_ACCOUNT_YOUR_PROJECT_ID` (replace `YOUR_PROJECT_ID` with your actual Firebase project ID).
+    - Paste the entire content of the downloaded JSON file as the secret's value.
+
+---
+
+## 🔒 Security Rules
+
+The `firestore.rules` file provides a basic security template. By default, it denies all reads and writes to your database.
+
+```rules
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Deny all reads and writes by default.
+    // Allow reads only for authenticated users.
+    match /{document=**} {
+      allow read: if request.auth != null;
+      allow write: if false; // Explicitly deny writes for now
+    }
+  }
+}
+```
+This is a starting point. You should update these rules to match your application's data access patterns.
