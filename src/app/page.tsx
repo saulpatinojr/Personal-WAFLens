@@ -50,27 +50,33 @@ export default function Home() {
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
             <PillarCard
               title="Reliability"
-              score={95}
+              value={99.95}
+              format="percentage"
+              subtitle="Uptime Last 30 Days"
               icon={<HeartPulse />}
             />
             <PillarCard
               title="Security"
-              score={82}
+              value={88}
+              format="score"
+              subtitle="Based on CIS Benchmarks"
               icon={<ShieldCheck />}
             />
             <PillarCard
               title="Cost Optimization"
-              score={60}
+              value={2150}
+              format="currency"
+              subtitle="Potential Monthly Savings"
               icon={<DollarSign />}
             />
             <PillarCard
               title="Operational Excellence"
-              score={75}
+              value={75}
               icon={<Briefcase />}
             />
             <PillarCard
               title="Performance Efficiency"
-              score={90}
+              value={90}
               icon={<Gauge />}
             />
           </div>

@@ -9,11 +9,25 @@ import type { ReactNode } from "react";
 
 type PillarCardProps = {
   title: string;
-  score: number;
+  value: number;
   icon: ReactNode;
+  format?: "score" | "percentage" | "currency";
+  subtitle?: string;
 };
 
-export function PillarCard({ title, score, icon }: PillarCardProps) {
+export function PillarCard({ title, value, icon, format = "score", subtitle }: PillarCardProps) {
+  const renderValue = () => {
+    switch (format) {
+      case "percentage":
+        return `${value}%`;
+      case "currency":
+        return `$${value.toLocaleString()}`;
+      case "score":
+      default:
+        return `${value}/100`;
+    }
+  };
+
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -21,8 +35,9 @@ export function PillarCard({ title, score, icon }: PillarCardProps) {
         <div className="text-muted-foreground">{icon}</div>
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold">{score}/100</div>
-        <Progress value={score} className="mt-2 h-2" />
+        <div className="text-2xl font-bold">{renderValue()}</div>
+        {subtitle && <p className="text-xs text-muted-foreground">{subtitle}</p>}
+        {format === "score" && <Progress value={value} className="mt-2 h-2" />}
       </CardContent>
     </Card>
   );
