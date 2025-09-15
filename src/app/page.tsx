@@ -34,7 +34,7 @@ export default function Home() {
                 <span className="sr-only">Home</span>
               </Link>
             </Button>
-            <h2 className="text-lg font-semibold tracking-tight">WAFLens</h2>
+            <h2 className="text-lg font-semibold tracking-tight">Dashnext</h2>
           </div>
         </SidebarHeader>
         <SidebarContent>
