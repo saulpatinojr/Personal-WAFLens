@@ -76,19 +76,19 @@ export default function Home() {
                 iconBg="bg-orange-100"
               />
               <PillarCard
-                title="Cost"
-                icon={<Landmark className="text-indigo-500" />}
-                value={60}
-                format="percentage"
-                subtitle="vs 65% last month"
+                title="Total spend"
+                icon={<DollarSign className="text-indigo-500" />}
+                value={2350}
+                format="currency"
+                subtitle="+10% from last month"
                 iconBg="bg-indigo-100"
               />
               <PillarCard
-                title="Excellence"
-                icon={<FileText className="text-red-500" />}
-                value={90}
-                format="percentage"
-                subtitle="vs 88% last month"
+                title="Active users"
+                icon={<Users className="text-red-500" />}
+                value={573}
+                format="number"
+                subtitle="+201 since last hour"
                 iconBg="bg-red-100"
               />
             </div>
