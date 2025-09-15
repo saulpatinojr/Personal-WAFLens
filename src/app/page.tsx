@@ -52,38 +52,43 @@ export default function Home() {
           <div className="p-4 md:p-8 pt-6">
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-5">
               <PillarCard
-                title="Employees"
-                icon={<Users className="text-blue-500" />}
+                title="Reliability"
+                icon={<Shield className="text-blue-500" />}
                 value={96}
-                format="number"
+                format="percentage"
+                subtitle="vs 98% last month"
                 iconBg="bg-blue-100"
               />
               <PillarCard
-                title="Clients"
-                icon={<Building className="text-green-500" />}
-                value={3650}
-                format="number"
+                title="Performance"
+                icon={<Zap className="text-green-500" />}
+                value={82}
+                format="percentage"
+                subtitle="vs 85% last month"
                 iconBg="bg-green-100"
               />
               <PillarCard
-                title="Projects"
-                icon={<FileText className="text-orange-500" />}
-                value={356}
-                format="number"
+                title="Security"
+                icon={<TrendingUp className="text-orange-500" />}
+                value={75}
+                format="percentage"
+                subtitle="vs 70% last month"
                 iconBg="bg-orange-100"
               />
               <PillarCard
-                title="Events"
-                icon={<Zap className="text-indigo-500" />}
-                value={696}
-                format="number"
+                title="Cost"
+                icon={<Landmark className="text-indigo-500" />}
+                value={60}
+                format="percentage"
+                subtitle="vs 65% last month"
                 iconBg="bg-indigo-100"
               />
               <PillarCard
-                title="Payroll"
-                icon={<DollarSign className="text-red-500" />}
-                value={96000}
-                format="currency"
+                title="Excellence"
+                icon={<FileText className="text-red-500" />}
+                value={90}
+                format="percentage"
+                subtitle="vs 88% last month"
                 iconBg="bg-red-100"
               />
             </div>
