@@ -13,11 +13,9 @@ import {
   Shield,
   Zap,
   TrendingUp,
-  Landmark,
   FileText,
   DollarSign,
-  Users,
-  Building,
+  Activity,
 } from 'lucide-react';
 
 import { Logo } from '@/components/icons';
@@ -60,7 +58,7 @@ export default function Home() {
                 iconBg="bg-blue-100"
               />
               <PillarCard
-                title="Performance"
+                title="Performance Efficiency"
                 icon={<Zap className="text-green-500" />}
                 value={82}
                 format="percentage"
@@ -76,7 +74,7 @@ export default function Home() {
                 iconBg="bg-orange-100"
               />
               <PillarCard
-                title="Total spend"
+                title="Cost Optimization"
                 icon={<DollarSign className="text-indigo-500" />}
                 value={2350}
                 format="currency"
@@ -84,8 +82,8 @@ export default function Home() {
                 iconBg="bg-indigo-100"
               />
               <PillarCard
-                title="Active users"
-                icon={<Users className="text-red-500" />}
+                title="Operational Excellence"
+                icon={<Activity className="text-red-500" />}
                 value={573}
                 format="number"
                 subtitle="+201 since last hour"
