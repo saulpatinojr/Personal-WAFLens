@@ -1,52 +1,82 @@
-# Example schema for simple movie review app
+# Schema based on the provided blueprint for WAF and resource management.
 
-# User table is keyed by Firebase Auth UID.
-type User @table {
-  # `@default(expr: "auth.uid")` sets it to Firebase Auth UID during insert and upsert.
-  id: String! @default(expr: "auth.uid")
-  username: String! @col(dataType: "varchar(50)")
-  # The `user: User!` field in the Review table generates the following one-to-many query field.
-  #  reviews_on_user: [Review!]!
-  # The `Review` join table the following many-to-many query field.
-  #  movies_via_Review: [Movie!]!
+# Represents a subscription, which can contain multiple resource groups.
+type AppSubscription @table(key: "SubscriptionID") {
+  SubscriptionID: UUID! @default(expr: "uuidV4()")
+  SubscriptionName: String!
 }
 
-# Movie is keyed by a randomly generated UUID.
-type Movie @table {
-  # If you do not pass a 'key' to `@table`, Data Connect automatically adds the following 'id' column.
-  # Feel free to uncomment and customize it.
-  #  id: UUID! @default(expr: "uuidV4()")
-  title: String!
-  imageUrl: String!
-  genre: String
+# Represents a resource group, which contains resources.
+type ResourceGroup @table(key: "ResourceGroupID") {
+  ResourceGroupID: UUID! @default(expr: "uuidV4()")
+  ResourceGroupName: String!
+  Subscription: AppSubscription!
 }
 
-# MovieMetadata is a metadata attached to a Movie.
-# Movie <-> MovieMetadata is a one-to-one relationship
-type MovieMetadata @table {
-  # @unique ensures each Movie can only one MovieMetadata.
-  movie: Movie! @unique
-  # The movie field adds the following foreign key field. Feel free to uncomment and customize it.
-  #  movieId: UUID!
-  rating: Float
-  releaseYear: Int
-  description: String
+# Master inventory for both on-prem and cloud assets.
+type Resource @table(key: "ResourceID") {
+  ResourceID: UUID! @default(expr: "uuidV4()")
+  ResourceName: String!
+  ResourceType: String!
+  # Where the resource lives (e.g., Azure, OnPrem, AWS).
+  Source: String!
+  # The unique ID from Azure Resource Manager (ARM). Null for on-prem.
+  AzureResourceID: String
+  Subscription: AppSubscription!
+  ResourceGroup: ResourceGroup!
+  # Azure region or on-prem datacenter name.
+  Location: String
+  # Flexible field to store specific details like VM size, OS, IP addresses, etc.
+  Configuration: String
+  # Stores key-value tags from the cloud provider or internal systems.
+  Tags: String
 }
 
-# Reviews is a join table between User and Movie.
-# It has a composite primary keys `userUid` and `movieId`.
-# A user can leave reviews for many movies. A movie can have reviews from many users.
-# User  <-> Review is a one-to-many relationship
-# Movie <-> Review is a one-to-many relationship
-# Movie <-> User is a many-to-many relationship
-type Review @table(name: "Reviews", key: ["movie", "user"]) {
-  user: User!
-  # The user field adds the following foreign key field. Feel free to uncomment and customize it.
-  #  userUid: String!
-  movie: Movie!
-  # The movie field adds the following foreign key field. Feel free to uncomment and customize it.
-  #  movieId: UUID!
-  rating: Int
-  reviewText: String
-  reviewDate: Date! @default(expr: "request.time")
+# The five pillars of the Well-Architected Framework.
+type WAFPillar @table(key: "PillarID") {
+  PillarID: Int!
+  PillarName: String!
+}
+
+# Specific best practices or "controls" within each WAF pillar.
+type WAFControl @table(key: "ControlID") {
+  ControlID: UUID! @default(expr: "uuidV4()")
+  Pillar: WAFPillar!
+  ControlName: String! @col(dataType: "varchar(255)")
+  Description: String!
+  Severity: String! # High, Medium, Low
+}
+
+# Junction table connecting resources to controls, tracking compliance status.
+type ResourceControlStatus @table(key: "StatusID") {
+  StatusID: UUID! @default(expr: "uuidV4()")
+  Resource: Resource!
+  Control: WAFControl!
+  # Compliant, NonCompliant, NotApplicable.
+  ComplianceStatus: String!
+  LastChecked: Timestamp! @default(expr: "request.time")
+  Notes: String
+}
+
+# Stores performance and cost metrics for resources in a long-form format.
+type Metric @table(key: "MetricID") {
+  MetricID: String! # Using String for BIGINT equivalent
+  Resource: Resource!
+  # Name of the metric (e.g., CPU_Percentage, Memory_Used_Bytes, Cost_USD).
+  MetricName: String!
+  MetricValue: Float!
+  Timestamp: Timestamp!
+  # The unit of measurement (e.g., Percent, Bytes, Count).
+  Unit: String!
+}
+
+# Tracks the migration journey of an on-prem resource to its cloud counterpart.
+type Migration @table(key: "MigrationID") {
+  MigrationID: UUID! @default(expr: "uuidV4()")
+  OnPremResource: Resource!
+  CloudResource: Resource # Can be null initially.
+  # Planned, InProgress, Completed, Failed.
+  MigrationStatus: String!
+  PlannedDate: Date
+  CompletedDate: Date
 }

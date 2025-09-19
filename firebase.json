@@ -11,13 +11,20 @@
         "source": "**",
         "destination": "/index.html"
       }
-    ],
-    "functions": "functions"
+    ]
   },
   "functions": {
     "source": "functions"
   },
   "firestore": {
     "rules": "firestore.rules"
+  },
+  "emulators": {
+    "dataconnect": {
+      "dataDir": "dataconnect/.dataconnect/pgliteData"
+    }
+  },
+  "dataconnect": {
+    "source": "dataconnect"
   }
 }
