@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Search, X, Pin, PinOff } from 'lucide-react';
@@ -20,14 +20,42 @@ import { cn } from '@/lib/utils';
 
 type AiLensState = 'hidden' | 'floating' | 'docked';
 
+const examplePrompts = [
+  "Show me all virtual machines that need reliability improvements.",
+  "What are the most expensive resources this month?",
+  "List all security recommendations for storage accounts.",
+  "Which resources have performance warnings?",
+  "Summarize the cost optimization opportunities.",
+];
+
 export function AiLens() {
   const [state, setState] = useState<AiLensState>('hidden');
   const [prompt, setPrompt] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [response, setResponse] = useState<AskAiOutput['response'] | null>(null);
+  const [isCycling, setIsCycling] = useState(true);
+  const [currentPlaceholderIndex, setCurrentPlaceholderIndex] = useState(0);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { toast } = useToast();
 
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (state !== 'hidden' && isCycling) {
+      interval = setInterval(() => {
+        setCurrentPlaceholderIndex((prevIndex) => (prevIndex + 1) % examplePrompts.length);
+      }, 3000);
+    }
+    return () => clearInterval(interval);
+  }, [state, isCycling]);
+  
+  const handleUserInteraction = () => {
+    if (isCycling) {
+      setIsCycling(false);
+    }
+  };
+
   const handleSubmit = async () => {
+    handleUserInteraction();
     if (!prompt) {
       toast({
         variant: 'destructive',
@@ -59,6 +87,8 @@ export function AiLens() {
     setPrompt('');
     setResponse(null);
     setIsLoading(false);
+    setIsCycling(true);
+    setCurrentPlaceholderIndex(0);
   };
 
   const handleClose = () => {
@@ -72,6 +102,7 @@ export function AiLens() {
   
   const handleFabClick = () => {
     setState('floating');
+    setIsCycling(true);
   };
 
   if (state === 'hidden') {
@@ -110,9 +141,9 @@ export function AiLens() {
       );
     }
 
-    if (Array.isArray(response)) {
+    if (Array.isArray(response) && response.length > 0) {
       return (
-        <Card className="bg-transparent">
+        <Card className="bg-transparent shadow-none border-none">
           <CardContent className="p-0">
             <Table>
               <TableHeader>
@@ -128,8 +159,8 @@ export function AiLens() {
               <TableBody>
                 {response.map((item, index) => (
                   <TableRow key={index}>
-                    <TableCell>{item.name}</TableCell>
-                    <TableCell>{item.uuid}</TableCell>
+                    <TableCell className="font-medium">{item.name}</TableCell>
+                    <TableCell className="truncate max-w-[100px]">{item.uuid}</TableCell>
                     <TableCell>{item.type}</TableCell>
                     <TableCell>{item.recommendation_action}</TableCell>
                     <TableCell>{item.date}</TableCell>
@@ -140,6 +171,15 @@ export function AiLens() {
             </Table>
           </CardContent>
         </Card>
+      );
+    }
+    
+    // Handle case where AI returns empty array or non-string/non-array
+    if(Array.isArray(response) && response.length === 0) {
+       return (
+        <div className="p-4 border rounded-md bg-muted/50 text-sm">
+          No recommendations were found for your query.
+        </div>
       );
     }
 
@@ -171,17 +211,25 @@ export function AiLens() {
         </div>
       </CardHeader>
       <CardContent className="flex flex-col gap-4 p-4 pt-0 flex-1">
-        <Textarea
-          placeholder="e.g., Show me all virtual machines that need reliability improvements."
-          value={prompt}
-          onChange={(e) => setPrompt(e.target.value)}
-          className={cn(
-            "resize-none bg-transparent",
-            state === 'floating' && "h-[120px]",
-            state === 'docked' && "h-16"
-          )}
-          disabled={isLoading}
-        />
+        <div className="relative">
+          <Textarea
+            ref={textareaRef}
+            placeholder={isCycling ? examplePrompts[currentPlaceholderIndex] : "e.g., Show me all virtual machines that need reliability improvements."}
+            value={prompt}
+            onChange={(e) => setPrompt(e.target.value)}
+            onFocus={handleUserInteraction}
+            onKeyDownCapture={handleUserInteraction}
+            className={cn(
+              "resize-none bg-transparent transition-all duration-300",
+              isCycling && 'placeholder:text-foreground/80',
+              !isCycling && 'placeholder:text-muted-foreground',
+              state === 'floating' && "h-[120px]",
+              state === 'docked' && "h-16"
+            )}
+            disabled={isLoading}
+          />
+        </div>
+
         <div className="flex-1 overflow-y-auto space-y-4">
           {renderResponse()}
         </div>
