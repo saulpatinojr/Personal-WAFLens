@@ -108,7 +108,7 @@ export function AiLens() {
           placeholder="e.g., How can I improve the reliability of my virtual machines?"
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
-          className="min-h-[100px] flex-grow bg-transparent"
+          className="h-[120px] resize-none bg-transparent"
           disabled={isLoading}
         />
         <div className="flex-1 overflow-y-auto space-y-4">
