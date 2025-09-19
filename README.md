@@ -120,3 +120,7 @@ service cloud.firestore {
 }
 ```
 This is a starting point. You should update these rules to match your application's data access patterns.
+
+## Important Notes
+
+- **Next.js `devIndicators.buildActivity` Deprecation**: The `devIndicators.buildActivity` option in `next.config.ts` is deprecated and has been removed. Please ensure your `next.config.ts` does not contain this property to avoid warnings or errors. The current configuration has been updated to reflect this change.
