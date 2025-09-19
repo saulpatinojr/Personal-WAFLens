@@ -23,6 +23,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { PillarObservanceChart } from '@/components/dashboard/pillar-observance-chart';
 import { ActionItemsTable } from '@/components/dashboard/action-items-table';
+import { AiLens } from '@/components/ai/ai-lens';
 
 export default function Home() {
   return (
@@ -98,6 +99,7 @@ export default function Home() {
             <ActionItemsTable />
           </div>
         </main>
+        <AiLens />
       </SidebarInset>
     </SidebarProvider>
   );
