@@ -21,45 +21,68 @@ import { Download } from "lucide-react";
 
 const actionItems = [
   {
-    resource: "Virtual Machine",
-    date: "2024-07-15",
-    amount: 125.50,
-    status: "Approved",
+    name: 'VM-Prod-01',
+    uuid: '123e4567-e89b-12d3-a456-426614174000',
+    type: 'Virtual Machine',
+    recommendation_action: 'Resize for cost savings',
+    date: '2024-07-20',
+    state: 'Active',
+    cost: 125.50,
   },
   {
-    resource: "Storage Account",
-    date: "2024-07-14",
-    amount: 45.00,
-    status: "Approved",
+    name: 'Storage-West-Log-01',
+    uuid: 'a1b2c3d4-e5f6-7890-1234-567890abcdef',
+    type: 'Storage Account',
+    recommendation_action: 'Enable soft delete',
+    date: '2024-07-19',
+    state: 'Active',
+    cost: 45.00,
   },
   {
-    resource: "SQL Database",
-    date: "2024-07-13",
-    amount: 350.00,
-    status: "Declined",
+    name: 'SQL-Primary-DB',
+    uuid: 'b2c3d4e5-f6a7-8901-2345-67890abcdef1',
+    type: 'SQL Database',
+    recommendation_action: 'Increase DTUs',
+    date: '2024-07-18',
+    state: 'Warning',
+    cost: 350.00,
   },
   {
-    resource: "App Service Plan",
-    date: "2024-07-12",
-    amount: 75.20,
-    status: "Approved",
+    name: 'AppSvc-Main-Plan',
+    uuid: 'c3d4e5f6-a7b8-9012-3456-7890abcdef12',
+    type: 'App Service Plan',
+    recommendation_action: 'Scale up instances',
+    date: '2024-07-17',
+    state: 'Active',
+    cost: 75.20,
   },
-   {
-    resource: "Cosmos DB",
-    date: "2024-07-11",
-    amount: 210.00,
-    status: "Declined",
+  {
+    name: 'Cosmos-Global-DB',
+    uuid: 'd4e5f6a7-b8c9-0123-4567-890abcdef123',
+    type: 'Cosmos DB',
+    recommendation_action: 'Review indexing policy',
+    date: '2024-07-16',
+    state: 'Critical',
+    cost: 210.00,
   },
 ];
 
 export function ActionItemsTable() {
 
   const handleExport = () => {
-    const headers = ["Resource", "Date", "Amount", "Status"];
+    const headers = ["Name", "UUID", "Type", "Recommendation Action", "Date", "State", "Cost"];
     const csvContent = [
       headers.join(","),
       ...actionItems.map(item => 
-        [item.resource, item.date, item.amount.toFixed(2), item.status].join(",")
+        [
+          item.name,
+          item.uuid,
+          item.type,
+          item.recommendation_action,
+          item.date,
+          item.state,
+          item.cost.toFixed(2)
+        ].join(",")
       )
     ].join("\n");
 
@@ -73,6 +96,19 @@ export function ActionItemsTable() {
     link.click();
     document.body.removeChild(link);
   };
+
+  const getStateBadgeVariant = (state: string) => {
+    switch (state.toLowerCase()) {
+      case 'active':
+        return 'success';
+      case 'warning':
+        return 'secondary';
+      case 'critical':
+        return 'destructive';
+      default:
+        return 'outline';
+    }
+  }
 
   return (
     <Card>
@@ -92,28 +128,30 @@ export function ActionItemsTable() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Resource</TableHead>
+              <TableHead>Name</TableHead>
+              <TableHead>UUID</TableHead>
+              <TableHead>Type</TableHead>
+              <TableHead>Recommendation</TableHead>
               <TableHead>Date</TableHead>
-              <TableHead className="text-right">Amount</TableHead>
-              <TableHead className="text-center">Status</TableHead>
+              <TableHead>State</TableHead>
+              <TableHead className="text-right">Cost</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {actionItems.map((item) => (
-              <TableRow key={item.resource}>
-                <TableCell className="font-medium">{item.resource}</TableCell>
+              <TableRow key={item.uuid}>
+                <TableCell className="font-medium">{item.name}</TableCell>
+                <TableCell className="truncate max-w-[150px]">{item.uuid}</TableCell>
+                <TableCell>{item.type}</TableCell>
+                <TableCell>{item.recommendation_action}</TableCell>
                 <TableCell>{item.date}</TableCell>
-                <TableCell className="text-right">
-                  ${item.amount.toFixed(2)}
-                </TableCell>
-                <TableCell className="text-center">
-                  <Badge
-                    variant={
-                      item.status === "Approved" ? "success" : "destructive"
-                    }
-                  >
-                    {item.status}
+                <TableCell>
+                  <Badge variant={getStateBadgeVariant(item.state)}>
+                    {item.state}
                   </Badge>
+                </TableCell>
+                <TableCell className="text-right">
+                  ${item.cost.toFixed(2)}
                 </TableCell>
               </TableRow>
             ))}
