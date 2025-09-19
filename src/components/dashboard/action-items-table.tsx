@@ -78,7 +78,7 @@ export function ActionItemsTable() {
           item.name,
           item.uuid,
           item.type,
-          item.recommendation_action,
+          `"${item.recommendation_action}"`,
           item.date,
           item.state,
           item.cost.toFixed(2)
@@ -140,17 +140,17 @@ export function ActionItemsTable() {
           <TableBody>
             {actionItems.map((item) => (
               <TableRow key={item.uuid}>
-                <TableCell className="font-medium">{item.name}</TableCell>
-                <TableCell className="truncate max-w-[150px]">{item.uuid}</TableCell>
-                <TableCell>{item.type}</TableCell>
-                <TableCell>{item.recommendation_action}</TableCell>
-                <TableCell>{item.date}</TableCell>
+                <TableCell className="font-medium text-xs">{item.name}</TableCell>
+                <TableCell className="truncate max-w-[150px] text-xs">{item.uuid}</TableCell>
+                <TableCell className="text-xs">{item.type}</TableCell>
+                <TableCell className="text-xs">{item.recommendation_action}</TableCell>
+                <TableCell className="text-xs">{item.date}</TableCell>
                 <TableCell>
                   <Badge variant={getStateBadgeVariant(item.state)}>
                     {item.state}
                   </Badge>
                 </TableCell>
-                <TableCell className="text-right">
+                <TableCell className="text-right text-xs">
                   ${item.cost.toFixed(2)}
                 </TableCell>
               </TableRow>
