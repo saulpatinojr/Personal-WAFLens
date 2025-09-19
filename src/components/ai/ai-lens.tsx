@@ -5,9 +5,17 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Search, X, Pin, PinOff } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { askAi } from '@/ai/flows/ask-ai-flow';
+import { askAi, AskAiOutput } from '@/ai/flows/ask-ai-flow';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { cn } from '@/lib/utils';
 
 type AiLensState = 'hidden' | 'floating' | 'docked';
@@ -16,7 +24,7 @@ export function AiLens() {
   const [state, setState] = useState<AiLensState>('hidden');
   const [prompt, setPrompt] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [response, setResponse] = useState('');
+  const [response, setResponse] = useState<AskAiOutput['response'] | null>(null);
   const { toast } = useToast();
 
   const handleSubmit = async () => {
@@ -30,7 +38,7 @@ export function AiLens() {
     }
 
     setIsLoading(true);
-    setResponse('');
+    setResponse(null);
 
     try {
       const result = await askAi({ prompt });
@@ -49,7 +57,7 @@ export function AiLens() {
 
   const resetState = () => {
     setPrompt('');
-    setResponse('');
+    setResponse(null);
     setIsLoading(false);
   };
 
@@ -79,11 +87,70 @@ export function AiLens() {
     );
   }
 
+  const renderResponse = () => {
+    if (isLoading) {
+      return (
+        <div className="space-y-2 p-4">
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-4 w-[200px]" />
+        </div>
+      );
+    }
+
+    if (!response) {
+      return null;
+    }
+
+    if (typeof response === 'string') {
+      return (
+        <div className="p-4 border rounded-md bg-muted/50 text-sm prose prose-sm max-w-none">
+          {response}
+        </div>
+      );
+    }
+
+    if (Array.isArray(response)) {
+      return (
+        <Card className="bg-transparent">
+          <CardContent className="p-0">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Name</TableHead>
+                  <TableHead>UUID</TableHead>
+                  <TableHead>Type</TableHead>
+                  <TableHead>Recommendation</TableHead>
+                  <TableHead>Date</TableHead>
+                  <TableHead>State</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {response.map((item, index) => (
+                  <TableRow key={index}>
+                    <TableCell>{item.name}</TableCell>
+                    <TableCell>{item.uuid}</TableCell>
+                    <TableCell>{item.type}</TableCell>
+                    <TableCell>{item.recommendation_action}</TableCell>
+                    <TableCell>{item.date}</TableCell>
+                    <TableCell>{item.state}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+      );
+    }
+
+    return null;
+  }
+
   return (
     <Card
       className={cn(
         "z-50 flex flex-col backdrop-blur-sm bg-background/80",
-        state === 'floating' && "fixed bottom-6 right-6 w-[440px] h-[560px] shadow-2xl rounded-xl border",
+        state === 'floating' && "fixed bottom-6 right-6 w-[720px] h-[560px] shadow-2xl rounded-xl border",
         state === 'docked' && "w-full h-auto border-t-2 rounded-none"
       )}
     >
@@ -105,7 +172,7 @@ export function AiLens() {
       </CardHeader>
       <CardContent className="flex flex-col gap-4 p-4 pt-0 flex-1">
         <Textarea
-          placeholder="e.g., How can I improve the reliability of my virtual machines?"
+          placeholder="e.g., Show me all virtual machines that need reliability improvements."
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           className={cn(
@@ -116,18 +183,7 @@ export function AiLens() {
           disabled={isLoading}
         />
         <div className="flex-1 overflow-y-auto space-y-4">
-          {isLoading && (
-            <div className="space-y-2 p-4">
-              <Skeleton className="h-4 w-full" />
-              <Skeleton className="h-4 w-full" />
-              <Skeleton className="h-4 w-[200px]" />
-            </div>
-          )}
-          {response && (
-            <div className="p-4 border rounded-md bg-muted/50 text-sm prose prose-sm max-w-none">
-              {response}
-            </div>
-          )}
+          {renderResponse()}
         </div>
          <div className="mt-auto flex justify-end">
             <Button onClick={handleSubmit} disabled={isLoading}>
