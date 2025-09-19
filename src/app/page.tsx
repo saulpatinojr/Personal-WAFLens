@@ -5,6 +5,7 @@ import {
   SidebarContent,
   SidebarInset,
   SidebarRail,
+  SidebarTrigger,
 } from '@/components/ui/sidebar';
 import { MainNav } from '@/components/dashboard/main-nav';
 import { DashboardHeader } from '@/components/dashboard/header';
@@ -47,7 +48,13 @@ export default function Home() {
       </Sidebar>
       <SidebarInset>
         <div className="flex-1 flex flex-col min-h-0">
-          <DashboardHeader />
+          <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
+            <SidebarTrigger />
+            <div className="ml-auto flex items-center gap-2">
+                <Button variant="outline">Compare</Button>
+                <Button>Upload</Button>
+            </div>
+          </header>
           <main className="flex-1 flex flex-col p-4 md:p-8 pt-6 overflow-y-auto">
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-5">
               <PillarCard

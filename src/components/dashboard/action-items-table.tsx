@@ -141,7 +141,7 @@ export function ActionItemsTable() {
             {actionItems.map((item) => (
               <TableRow key={item.uuid}>
                 <TableCell className="font-medium text-xs">{item.name}</TableCell>
-                <TableCell className="truncate max-w-[150px] text-xs">{item.uuid}</TableCell>
+                <TableCell className="text-xs">{item.uuid}</TableCell>
                 <TableCell className="text-xs">{item.type}</TableCell>
                 <TableCell className="text-xs">{item.recommendation_action}</TableCell>
                 <TableCell className="text-xs">{item.date}</TableCell>
