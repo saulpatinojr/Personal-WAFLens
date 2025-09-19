@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Wand2, X, Pin, PinOff } from 'lucide-react';
+import { Search, X, Pin, PinOff } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { askAi } from '@/ai/flows/ask-ai-flow';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -73,7 +73,7 @@ export function AiLens() {
         size="icon"
         onClick={handleFabClick}
       >
-        <Wand2 className="h-6 w-6" />
+        <Search className="h-6 w-6" />
         <span className="sr-only">AI Lens</span>
       </Button>
     );
