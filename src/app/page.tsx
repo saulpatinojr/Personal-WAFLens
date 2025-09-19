@@ -46,9 +46,9 @@ export default function Home() {
         </SidebarContent>
       </Sidebar>
       <SidebarInset>
-        <DashboardHeader />
-        <main className="flex-1 flex flex-col">
-          <div className="p-4 md:p-8 pt-6">
+        <div className="flex-1 flex flex-col min-h-0">
+          <DashboardHeader />
+          <main className="flex-1 flex flex-col p-4 md:p-8 pt-6 overflow-y-auto">
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-5">
               <PillarCard
                 title="Reliability"
@@ -94,11 +94,11 @@ export default function Home() {
             <div className="grid gap-6 mt-6">
               <PillarObservanceChart />
             </div>
-          </div>
-          <div className="p-4 md:p-8 mt-auto">
-            <ActionItemsTable />
-          </div>
-        </main>
+            <div className="mt-6">
+              <ActionItemsTable />
+            </div>
+          </main>
+        </div>
         <AiLens />
       </SidebarInset>
     </SidebarProvider>
