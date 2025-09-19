@@ -102,6 +102,16 @@ For the deployment to work, you must configure secrets in your GitHub repository
 
 ---
 
+## 💿 Data Connect
+
+This project uses Firebase Data Connect to interact with your database. The generated SDK for the `example` connector is located in `src/dataconnect-generated`.
+
+For detailed information on how to use the generated SDK to call your Data Connect queries and mutations, please refer to the auto-generated documentation:
+- **TypeScript/JavaScript SDK**: [`src/dataconnect-generated/README.md`](src/dataconnect-generated/README.md)
+- **React Hooks SDK**: [`src/dataconnect-generated/react/README.md`](src/dataconnect-generated/react/README.md)
+
+---
+
 ## 🔒 Security Rules
 
 The `firestore.rules` file provides a basic security template. By default, it denies all reads and writes to your database.
@@ -124,3 +134,4 @@ This is a starting point. You should update these rules to match your applicatio
 ## Important Notes
 
 - **Next.js `devIndicators.buildActivity` Deprecation**: The `devIndicators.buildActivity` option in `next.config.ts` is deprecated and has been removed. Please ensure your `next.config.ts` does not contain this property to avoid warnings or errors. The current configuration has been updated to reflect this change.
+- **Firebase Emulator Conflict**: There might be conflicts with the Next.js development server running on port 3000 and the Firebase emulator trying to use the same port. If you encounter issues, try running the Firebase emulator on a different port using `firebase emulators:start --port <other_port>`. Update the appropriate configurations if needed.
