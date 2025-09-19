@@ -108,7 +108,11 @@ export function AiLens() {
           placeholder="e.g., How can I improve the reliability of my virtual machines?"
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
-          className="h-[120px] resize-none bg-transparent"
+          className={cn(
+            "resize-none bg-transparent",
+            state === 'floating' && "h-[120px]",
+            state === 'docked' && "h-16"
+          )}
           disabled={isLoading}
         />
         <div className="flex-1 overflow-y-auto space-y-4">
