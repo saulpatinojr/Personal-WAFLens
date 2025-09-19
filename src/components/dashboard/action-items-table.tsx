@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Table,
   TableBody,
@@ -14,6 +16,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Download } from "lucide-react";
 
 const actionItems = [
   {
@@ -49,13 +53,40 @@ const actionItems = [
 ];
 
 export function ActionItemsTable() {
+
+  const handleExport = () => {
+    const headers = ["Resource", "Date", "Amount", "Status"];
+    const csvContent = [
+      headers.join(","),
+      ...actionItems.map(item => 
+        [item.resource, item.date, item.amount.toFixed(2), item.status].join(",")
+      )
+    ].join("\n");
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute("download", "action-items.csv");
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Action Items</CardTitle>
-        <CardDescription>
-          Recommended actions based on the analysis.
-        </CardDescription>
+      <CardHeader className="flex flex-row items-center justify-between">
+        <div>
+          <CardTitle>Action Items</CardTitle>
+          <CardDescription>
+            Recommended actions based on the analysis.
+          </CardDescription>
+        </div>
+        <Button variant="outline" size="sm" onClick={handleExport}>
+          <Download className="mr-2 h-4 w-4" />
+          Export CSV
+        </Button>
       </CardHeader>
       <CardContent>
         <Table>

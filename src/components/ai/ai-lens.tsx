@@ -120,7 +120,7 @@ export function AiLens() {
             </div>
           )}
           {response && (
-            <div className="p-4 border rounded-md bg-muted/50 text-sm">
+            <div className="p-4 border rounded-md bg-muted/50 text-sm prose prose-sm max-w-none">
               {response}
             </div>
           )}
