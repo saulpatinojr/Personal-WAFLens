@@ -8,13 +8,11 @@ import {
   SidebarTrigger,
 } from '@/components/ui/sidebar';
 import { MainNav } from '@/components/dashboard/main-nav';
-import { DashboardHeader } from '@/components/dashboard/header';
 import { PillarCard } from '@/components/dashboard/pillar-card';
 import {
   Shield,
   Zap,
   TrendingUp,
-  FileText,
   DollarSign,
   Activity,
 } from 'lucide-react';

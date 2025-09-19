@@ -64,7 +64,7 @@ This project uses Genkit to interact with Google's Gemini models, which requires
 
 ## 📜 Available Scripts
 
--   `npm run dev`: Runs the Next.js front-end in development mode.
+-   `npm run dev`: Runs the Next.js front-end in development mode on port 3001 to avoid conflicts with Firebase emulators. You can access it at `http://localhost:3001`.
 -   `npm run build`: Builds the application for production.
 -   `npm start`: Starts the production Next.js server.
 -   `npm run lint`: Lints the codebase for errors.
@@ -134,4 +134,4 @@ This is a starting point. You should update these rules to match your applicatio
 ## Important Notes
 
 - **Next.js `devIndicators.buildActivity` Deprecation**: The `devIndicators.buildActivity` option in `next.config.ts` is deprecated and has been removed. Please ensure your `next.config.ts` does not contain this property to avoid warnings or errors. The current configuration has been updated to reflect this change.
-- **Firebase Emulator Conflict**: There might be conflicts with the Next.js development server running on port 3000 and the Firebase emulator trying to use the same port. If you encounter issues, try running the Firebase emulator on a different port using `firebase emulators:start --port <other_port>`. Update the appropriate configurations if needed.
+- **Port Configuration**: To avoid conflicts between the Next.js development server and the Firebase emulator, the default Next.js port has been changed to `3001`. The Firebase emulators will run on their default ports (e.g., UI on 4000, Auth on 9099, Firestore on 8080).
