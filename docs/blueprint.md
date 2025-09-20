@@ -16,6 +16,6 @@
 - Body and headline font: 'Inter', a sans-serif font providing a clean, modern, neutral look, good for both headers and body, ensuring readability.
 - Use clean, simple, and monolinear icons that reflect technical precision and clarity.  Icons should be white or light grey.
 - Prioritize a clean and structured layout with a focus on code readability and ease of navigation through configuration files. Use a sidebar for primary navigation (e.g., 'Azure Lens', 'Files', 'AI Settings').
-- Divide the main content area into sections for 'Reliability', 'Security', 'Cost Optimization', 'Operational Excellence', 'Performance Efficiency', 'Pillar Observance' (radar chart), and 'Action Items' (table).
+- Divide the main content area into sections for 'Reliability', 'Security', 'Cost Optimization', 'Operational Excellence', 'Performance Efficiency', 'Pillar Observance' (radar chart), 'Framework Adoption' (chart), and 'Action Items' (table).
 - Use cards with rounded corners for individual metrics or resources. Action Items table to display Resource, Date, Amount, and Status in a structured manner.
 - Incorporate subtle animations, such as fade-ins or transitions, to enhance user experience without distracting from the technical content.

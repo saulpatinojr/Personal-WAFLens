@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   PolarGrid,
@@ -6,7 +6,7 @@ import {
   PolarRadiusAxis,
   Radar,
   RadarChart,
-} from "recharts";
+} from 'recharts';
 
 import {
   Card,
@@ -14,26 +14,26 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
+} from '@/components/ui/chart';
 
 const chartData = [
-  { pillar: "Reliability", score: 95 },
-  { pillar: "Security", score: 82 },
-  { pillar: "Cost", score: 60 },
-  { pillar: "Excellence", score: 75 },
-  { pillar: "Performance", score: 90 },
+  { pillar: 'Reliability', score: 95 },
+  { pillar: 'Security', score: 82 },
+  { pillar: 'Cost', score: 60 },
+  { pillar: 'Excellence', score: 75 },
+  { pillar: 'Performance', score: 90 },
 ];
 
 const chartConfig = {
   score: {
-    label: "Score",
-    color: "hsl(var(--primary))",
+    label: 'Score',
+    color: 'hsl(var(--primary))',
   },
 } satisfies ChartConfig;
 
@@ -52,7 +52,7 @@ export function PillarObservanceChart() {
           className="mx-auto aspect-square h-[250px]"
         >
           <RadarChart data={chartData}>
-            <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+            <ChartTooltip cursor={true} content={<ChartTooltipContent />} />
             <PolarAngleAxis dataKey="pillar" />
             <PolarGrid />
             <PolarRadiusAxis angle={30} domain={[0, 100]} stroke="hsl(var(--border))" />
@@ -61,6 +61,7 @@ export function PillarObservanceChart() {
               fill="var(--color-score)"
               fillOpacity={0.6}
               stroke="var(--color-score)"
+              activeDot={{ r: 6 }}
             />
           </RadarChart>
         </ChartContainer>

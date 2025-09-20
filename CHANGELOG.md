@@ -28,3 +28,13 @@
     -   Removed default example queries and mutations that were incompatible with our custom schema.
     -   Successfully generated the Data Connect SDK, which provides React hooks for seamless data interaction.
 -   **Notes:** This establishes the complete, type-safe data layer for the application, paving the way for frontend development.
+
+## Change 4: Dashboard Enhancements & Performance Fixes
+-   **Date:** 2024-09-19
+-   **Description:** Implemented key frontend improvements to resolve a critical performance issue and enhance the dashboard's data visualization capabilities.
+-   **Key Steps:**
+    -   **Performance Fix:** Resolved a 22-second page load delay by adding an inline SVG favicon to the main layout (`src/app/layout.tsx`). This prevents the browser from making a long, unsuccessful request for a non-existent `favicon.ico` file.
+    -   **New Chart:** Introduced a new "Framework Adoption" chart to the main dashboard.
+    -   **Layout Adjustment:** Updated the dashboard layout to display the "Pillar Observance" and "Framework Adoption" charts side-by-side, each taking up half the width of their container.
+    -   **Component Creation:** Created a reusable chart component (`src/components/dashboard/framework-adoption-chart.tsx`) with placeholder data, which can be easily updated later with real application logic.
+-   **Notes:** These changes significantly improve the user experience by eliminating a major performance bottleneck and enriching the dashboard with more detailed visualizations.

@@ -133,5 +133,6 @@ This is a starting point. You should update these rules to match your applicatio
 
 ## Important Notes
 
+- **Performance Note**: A significant page load delay was resolved by embedding an inline SVG favicon in the main layout. This prevents a blocking request for a missing `favicon.ico` file.
 - **Next.js `devIndicators.buildActivity` Deprecation**: The `devIndicators.buildActivity` option in `next.config.ts` is deprecated and has been removed. Please ensure your `next.config.ts` does not contain this property to avoid warnings or errors. The current configuration has been updated to reflect this change.
 - **Port Configuration**: To avoid conflicts between the Next.js development server and the Firebase emulator, the default Next.js port has been changed to `3001`. The Firebase emulators will run on their default ports (e.g., UI on 4000, Auth on 9099, Firestore on 8080).

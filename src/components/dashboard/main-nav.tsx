@@ -7,7 +7,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from "@/components/ui/sidebar";
-import { AreaChart, FileCode } from "lucide-react";
+import { LayoutDashboard, Files, Menu, Book } from "lucide-react";
 
 export function MainNav() {
   const pathname = usePathname();
@@ -15,13 +15,28 @@ export function MainNav() {
   const menuItems = [
     {
       href: "/",
-      label: "Well Architected Overview",
-      icon: AreaChart,
+      label: "Dashboard",
+      icon: LayoutDashboard,
+    },
+    {
+      href: "#",
+      label: "WAF Overview",
+      icon: LayoutDashboard,
     },
     {
       href: "#",
       label: "Files",
-      icon: FileCode,
+      icon: Files,
+    },
+    {
+      href: "#",
+      label: "Menu",
+      icon: Menu,
+    },
+    {
+      href: "#",
+      label: "Docs",
+      icon: Book,
     },
   ];
 
@@ -33,6 +48,7 @@ export function MainNav() {
             asChild
             isActive={pathname === item.href}
             tooltip={item.label}
+            className="flex flex-col h-full items-center justify-center"
           >
             <Link href={item.href}>
               <item.icon />

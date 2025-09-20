@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
 import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Search, X, Pin, PinOff } from 'lucide-react';
+import { Bot, X, Pin, PinOff } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { askAi, AskAiOutput } from '@/ai/flows/ask-ai-flow';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -17,8 +17,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { cn } from '@/lib/utils';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
 type AiLensState = 'hidden' | 'floating' | 'docked';
+
+type Message = {
+  id: number;
+  sender: 'user' | 'ai';
+  content: AskAiOutput['response'];
+};
 
 const examplePrompts = [
   "Show me all virtual machines that need reliability improvements.",
@@ -32,10 +39,11 @@ export function AiLens() {
   const [state, setState] = useState<AiLensState>('hidden');
   const [prompt, setPrompt] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [response, setResponse] = useState<AskAiOutput['response'] | null>(null);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [isCycling, setIsCycling] = useState(true);
   const [currentPlaceholderIndex, setCurrentPlaceholderIndex] = useState(0);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -47,7 +55,13 @@ export function AiLens() {
     }
     return () => clearInterval(interval);
   }, [state, isCycling]);
-  
+
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  }, [messages, isLoading]);
+
   const handleUserInteraction = () => {
     if (isCycling) {
       setIsCycling(false);
@@ -65,12 +79,15 @@ export function AiLens() {
       return;
     }
 
+    const userMessage: Message = { id: Date.now(), sender: 'user', content: prompt };
+    setMessages((prev) => [...prev, userMessage]);
+    setPrompt('');
     setIsLoading(true);
-    setResponse(null);
 
     try {
       const result = await askAi({ prompt });
-      setResponse(result.response);
+      const aiMessage: Message = { id: Date.now() + 1, sender: 'ai', content: result.response };
+      setMessages((prev) => [...prev, aiMessage]);
     } catch (error) {
       console.error('AI Error:', error);
       toast({
@@ -85,7 +102,7 @@ export function AiLens() {
 
   const resetState = () => {
     setPrompt('');
-    setResponse(null);
+    setMessages([]);
     setIsLoading(false);
     setIsCycling(true);
     setCurrentPlaceholderIndex(0);
@@ -99,7 +116,7 @@ export function AiLens() {
   const handleToggleDock = () => {
     setState(state === 'docked' ? 'floating' : 'docked');
   };
-  
+
   const handleFabClick = () => {
     setState('floating');
     setIsCycling(true);
@@ -112,79 +129,56 @@ export function AiLens() {
         size="icon"
         onClick={handleFabClick}
       >
-        <Search className="h-6 w-6" />
+        <Bot className="h-6 w-6" />
         <span className="sr-only">AI Lens</span>
       </Button>
     );
   }
 
-  const renderResponse = () => {
-    if (isLoading) {
+  const renderMessageContent = (content: AskAiOutput['response']) => {
+    if (typeof content === 'string') {
+      return <p className="prose prose-sm max-w-none">{content}</p>;
+    }
+
+    if (Array.isArray(content) && content.length > 0) {
       return (
-        <div className="space-y-2 p-4">
-          <Skeleton className="h-4 w-full" />
-          <Skeleton className="h-4 w-full" />
-          <Skeleton className="h-4 w-[200px]" />
-        </div>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Name</TableHead>
+              <TableHead>UUID</TableHead>
+              <TableHead>Type</TableHead>
+              <TableHead>Recommendation</TableHead>
+              <TableHead>Date</TableHead>
+              <TableHead>State</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {content.map((item, index) => (
+              <TableRow key={index}>
+                <TableCell className="font-medium">{item.name}</TableCell>
+                <TableCell className="truncate max-w-[100px]">{item.uuid}</TableCell>
+                <TableCell>{item.type}</TableCell>
+                <TableCell>{item.recommendation_action}</TableCell>
+                <TableCell>{item.date}</TableCell>
+                <TableCell>{item.state}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       );
     }
 
-    if (!response) {
-      return null;
-    }
-
-    if (typeof response === 'string') {
+    if (Array.isArray(content) && content.length === 0) {
       return (
-        <div className="p-4 border rounded-md bg-muted/50 text-sm prose prose-sm max-w-none">
-          {response}
-        </div>
-      );
-    }
-
-    if (Array.isArray(response) && response.length > 0) {
-      return (
-        <Card className="bg-transparent shadow-none border-none">
-          <CardContent className="p-0">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>UUID</TableHead>
-                  <TableHead>Type</TableHead>
-                  <TableHead>Recommendation</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead>State</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {response.map((item, index) => (
-                  <TableRow key={index}>
-                    <TableCell className="font-medium">{item.name}</TableCell>
-                    <TableCell className="truncate max-w-[100px]">{item.uuid}</TableCell>
-                    <TableCell>{item.type}</TableCell>
-                    <TableCell>{item.recommendation_action}</TableCell>
-                    <TableCell>{item.date}</TableCell>
-                    <TableCell>{item.state}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
-      );
-    }
-    
-    // Handle case where AI returns empty array or non-string/non-array
-    if(Array.isArray(response) && response.length === 0) {
-       return (
-        <div className="p-4 border rounded-md bg-muted/50 text-sm">
+        <p className="prose prose-sm max-w-none">
           No recommendations were found for your query.
-        </div>
+        </p>
       );
     }
 
     return null;
-  }
+  };
 
   return (
     <Card
@@ -195,12 +189,19 @@ export function AiLens() {
       )}
     >
       <CardHeader className="flex flex-row items-center justify-between p-4">
-        <div className="space-y-1">
-          <CardTitle className="text-lg">AI Lens</CardTitle>
-          <CardDescription>Ask about your infrastructure or the Well-Architected Framework.</CardDescription>
+        <div className="flex items-center gap-3">
+          <Avatar className="h-9 w-9">
+            <AvatarFallback>
+              <Bot className="h-5 w-5" />
+            </AvatarFallback>
+          </Avatar>
+          <div className="space-y-1">
+            <CardTitle className="text-lg">AI Lens</CardTitle>
+            <CardDescription>Your intelligent Well-Architected Framework assistant.</CardDescription>
+          </div>
         </div>
         <div className="flex items-center gap-2">
-           <Button variant="ghost" size="icon" className="h-7 w-7" onClick={handleToggleDock}>
+          <Button variant="ghost" size="icon" className="h-7 w-7" onClick={handleToggleDock}>
             {state === 'docked' ? <PinOff className="h-4 w-4" /> : <Pin className="h-4 w-4" />}
             <span className="sr-only">{state === 'docked' ? 'Undock' : 'Dock'}</span>
           </Button>
@@ -210,34 +211,59 @@ export function AiLens() {
           </Button>
         </div>
       </CardHeader>
-      <CardContent className="flex flex-col gap-4 p-4 pt-0 flex-1">
-        <div className="relative">
-          <Textarea
-            ref={textareaRef}
-            placeholder={isCycling ? examplePrompts[currentPlaceholderIndex] : "e.g., Show me all virtual machines that need reliability improvements."}
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-            onFocus={handleUserInteraction}
-            onKeyDownCapture={handleUserInteraction}
-            className={cn(
-              "resize-none bg-transparent transition-all duration-300",
-              isCycling && 'placeholder:text-foreground/80',
-              !isCycling && 'placeholder:text-muted-foreground',
-              state === 'floating' && "h-[120px]",
-              state === 'docked' && "h-16"
-            )}
-            disabled={isLoading}
-          />
+      <CardContent className="flex flex-col flex-1 p-0">
+        <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-4 space-y-4">
+          {messages.map((message) => (
+            <div
+              key={message.id}
+              className={cn(
+                "flex w-max max-w-[85%] flex-col gap-2 rounded-lg px-3 py-2 text-sm",
+                message.sender === 'user'
+                  ? "ml-auto bg-primary text-primary-foreground"
+                  : "bg-muted"
+              )}
+            >
+              {renderMessageContent(message.content)}
+            </div>
+          ))}
+          {isLoading && (
+            <div className="flex w-max max-w-[85%] flex-col gap-2 rounded-lg px-3 py-2 text-sm bg-muted">
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-[250px]" />
+                <Skeleton className="h-4 w-[200px]" />
+              </div>
+            </div>
+          )}
         </div>
-
-        <div className="flex-1 overflow-y-auto space-y-4">
-          {renderResponse()}
-        </div>
-         <div className="mt-auto flex justify-end">
+        <div className="p-4 border-t bg-background/95">
+          <div className="relative">
+            <Textarea
+              ref={textareaRef}
+              placeholder={
+                isCycling
+                  ? examplePrompts[currentPlaceholderIndex]
+                  : "e.g., Show me all virtual machines that need reliability improvements."
+              }
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              onFocus={handleUserInteraction}
+              onKeyDownCapture={(e) => {
+                handleUserInteraction();
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  handleSubmit();
+                }
+              }}
+              className="resize-none pr-16"
+              disabled={isLoading}
+            />
+          </div>
+          <div className="mt-2 flex justify-end">
             <Button onClick={handleSubmit} disabled={isLoading}>
               {isLoading ? 'Thinking...' : 'Ask AI'}
             </Button>
           </div>
+        </div>
       </CardContent>
     </Card>
   );
