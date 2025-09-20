@@ -18,56 +18,34 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
+import { useState, useEffect } from 'react';
+import { db } from '@/lib/firebase';
+import { collection, getDocs } from 'firebase/firestore';
 
-const actionItems = [
-  {
-    name: 'VM-Prod-01',
-    uuid: '123e4567-e89b-12d3-a456-426614174000',
-    type: 'Virtual Machine',
-    recommendation_action: 'Resize for cost savings',
-    date: '2024-07-20',
-    state: 'Active',
-    cost: 125.50,
-  },
-  {
-    name: 'Storage-West-Log-01',
-    uuid: 'a1b2c3d4-e5f6-7890-1234-567890abcdef',
-    type: 'Storage Account',
-    recommendation_action: 'Enable soft delete',
-    date: '2024-07-19',
-    state: 'Active',
-    cost: 45.00,
-  },
-  {
-    name: 'SQL-Primary-DB',
-    uuid: 'b2c3d4e5-f6a7-8901-2345-67890abcdef1',
-    type: 'SQL Database',
-    recommendation_action: 'Increase DTUs',
-    date: '2024-07-18',
-    state: 'Warning',
-    cost: 350.00,
-  },
-  {
-    name: 'AppSvc-Main-Plan',
-    uuid: 'c3d4e5f6-a7b8-9012-3456-7890abcdef12',
-    type: 'App Service Plan',
-    recommendation_action: 'Scale up instances',
-    date: '2024-07-17',
-    state: 'Active',
-    cost: 75.20,
-  },
-  {
-    name: 'Cosmos-Global-DB',
-    uuid: 'd4e5f6a7-b8c9-0123-4567-890abcdef123',
-    type: 'Cosmos DB',
-    recommendation_action: 'Review indexing policy',
-    date: '2024-07-16',
-    state: 'Critical',
-    cost: 210.00,
-  },
-];
+// Define the type for an action item
+interface ActionItem {
+  id: string;
+  name: string;
+  uuid: string;
+  type: string;
+  recommendation_action: string;
+  date: string;
+  state: string;
+  cost: number;
+}
 
 export function ActionItemsTable() {
+  const [actionItems, setActionItems] = useState<ActionItem[]>([]);
+
+  useEffect(() => {
+    const fetchActionItems = async () => {
+      const querySnapshot = await getDocs(collection(db, "action_items"));
+      const items = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as ActionItem));
+      setActionItems(items);
+    };
+
+    fetchActionItems();
+  }, []);
 
   const handleExport = () => {
     const headers = ["Name", "UUID", "Type", "Recommendation Action", "Date", "State", "Cost"];

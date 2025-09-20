@@ -1,30 +1,15 @@
-import {
-  SidebarProvider,
-  Sidebar,
-  SidebarHeader,
-  SidebarContent,
-  SidebarInset,
-  SidebarRail,
-  SidebarTrigger,
-} from '@/components/ui/sidebar';
+import { SidebarProvider, Sidebar, SidebarHeader, SidebarContent, SidebarInset, SidebarRail, SidebarTrigger } from '@/components/ui/sidebar';
 import { MainNav } from '@/components/dashboard/main-nav';
 import { PillarCard } from '@/components/dashboard/pillar-card';
-import {
-  PanelsTopLeft,
-  Gauge,
-  ShieldCheck,
-  PiggyBank,
-  Crosshair,
-} from 'lucide-react';
-
+import { PanelsTopLeft, Gauge, ShieldCheck, PiggyBank, Crosshair } from 'lucide-react';
 import { Logo } from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { PillarObservanceChart } from '@/components/dashboard/pillar-observance-chart';
 import { FrameworkAdoptionChart } from '@/components/dashboard/framework-adoption-chart';
 import { ActionItemsTable } from '@/components/dashboard/action-items-table';
 import { AiLens } from '@/components/ai/ai-lens';
 import { OrderCard } from '@/components/dashboard/order-card';
+import PillarObservanceChart from '@/components/dashboard/PillarObservanceChartClient';
 
 const orderData1 = [
   { name: 'Mon', uv: 400, pv: 2400, amt: 2400 },

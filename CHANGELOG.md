@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Change 5: Fixed React Hydration Mismatch Error
+-   **Date:** 2024-09-20
+-   **Description:** Fixed a React hydration mismatch error on the main page. The error was caused by the `PillarObservanceChart` component, which was generating random IDs on the server and client, leading to a mismatch. The fix involved dynamically importing the component with SSR disabled in `src/app/page.tsx`, ensuring it only renders on the client-side.
+-   **Notes:** This resolves the error and ensures a smooth user experience.
+
 ## Initial Project State
 
 -   **Date:** 2024-07-30

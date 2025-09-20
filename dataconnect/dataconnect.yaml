@@ -1,0 +1,7 @@
+connectorId: my-connector
+connectorSource: gcp-cloud-sql-postgres
+
+# Note: This is a sample configuration, please update with your actual values
+locationId: us-central1
+instanceId: my-instance
+databaseId: my-database
