@@ -1,7 +1,13 @@
-connectorId: my-connector
-connectorSource: gcp-cloud-sql-postgres
-
-# Note: This is a sample configuration, please update with your actual values
-locationId: us-central1
-instanceId: my-instance
-databaseId: my-database
+specVersion: "v1"
+serviceId: "waflens"
+location: "us-central1"
+schema:
+  source: "./schema"
+  datasource:
+    postgresql:
+      database: "fdcdb-2"
+      cloudSql:
+        instanceId: "waflens-db"
+        # schemaValidation: "STRICT"     # STRICT mode makes Postgres schema match Data Connect exactly.
+        # schemaValidation: "COMPATIBLE" # COMPATIBLE mode makes Postgres schema compatible with Data Connect.
+connectorDirs: ["./example"]

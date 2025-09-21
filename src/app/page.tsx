@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { FrameworkAdoptionChart } from '@/components/dashboard/framework-adoption-chart';
 import { ActionItemsTable } from '@/components/dashboard/action-items-table';
-import { AiLens } from '@/components/ai/ai-lens';
 import { OrderCard } from '@/components/dashboard/order-card';
 import PillarObservanceChart from '@/components/dashboard/PillarObservanceChartClient';
 
@@ -147,7 +146,6 @@ export default function Home() {
             </div>
           </main>
         </div>
-        <AiLens />
       </SidebarInset>
     </SidebarProvider>
   );
