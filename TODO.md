@@ -1,17 +1,27 @@
-
 # TODO
 
-- [ ] Add a database to store and retrieve data.
-- [ ] Implement user authentication.
-- [ ] Add more tests.
+This document outlines the next steps for the WAFLens project. The initial deployment and setup are complete, and the following tasks are the priority for future development.
 
-## AI Integration Findings
+## 1. Re-implement AI Functionality
+The application build was failing because the AI functionality was attempting to run on the client side. To resolve this, we must re-implement the AI logic in a server-side environment.
 
-The application build was failing because the AI functionality, which uses the `@google/generative-ai` package, requires a server-side environment to run. This is incompatible with the static export configuration (`output: 'export'`) in `next.config.ts`.
+- **Action:** Create Next.js API Routes in `src/app/api` to house the AI logic.
+- **Details:** The client-side components will make API calls to these server-side endpoints. This approach is recommended as it allows the project to maintain its static site export (`output: 'export'`) for a fast front-end experience while leveraging a server for intensive tasks.
 
-To fix the build, the AI components and related server-side dependencies were removed.
+## 2. Implement User Authentication
+To secure the application and provide personalized experiences, user authentication is a critical next step.
 
-To re-implement AI functionality, one of the following approaches should be taken:
+- **Action:** Integrate Firebase Authentication.
+- **Details:** Implement sign-in/sign-up flows and protect routes and data based on user authentication status. Update Firestore security rules in `firestore.rules` to reflect the authentication logic.
 
-1.  **Use Next.js API Routes (Recommended):** Create API routes in `src/app/api` to house the AI logic. The client-side components can then make API calls to these server-side endpoints.
-2.  **Switch to SSR:** Remove `output: 'export'` from `next.config.ts` to run the application with a Node.js server, allowing the use of server components that can directly call the AI package.
+## 3. Connect Front-End to Data Connect
+The Data Connect schema and SDK are in place, but the front-end components are still using placeholder data.
+
+- **Action:** Replace placeholder data in the dashboard components with live data from the Data Connect service.
+- **Details:** Use the generated hooks from the `waflens-code/src/dataconnect-generated` directory to query and mutate data in your dashboard components (`src/components/dashboard/*`).
+
+## 4. Expand Testing Coverage
+To ensure the stability and reliability of the application, a robust testing suite is necessary.
+
+- **Action:** Add unit and integration tests for new and existing features.
+- **Details:** Focus on testing the AI API routes, authentication flows, and data-driven components.

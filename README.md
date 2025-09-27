@@ -2,6 +2,18 @@
 
 This project is a web application built with Next.js, TypeScript, and Firebase. It's designed to be a well-structured, secure, and easily deployable application.
 
+## 📝 Project Status
+
+The initial setup and deployment of the WAFLens application are complete. The project is now in a stable state, with a functional CI/CD pipeline that deploys the front-end to Firebase Hosting and the backend services to Firebase Functions and Data Connect.
+
+## ✅ Next Steps
+
+The development roadmap and a detailed list of the next tasks are outlined in the `TODO.md` file. Please refer to it for the latest project priorities.
+
+[➡️ View the Project TODO List](./TODO.md)
+
+---
+
 ## 🚀 Project Setup
 
 ### Prerequisites
@@ -13,15 +25,13 @@ This project is a web application built with Next.js, TypeScript, and Firebase. 
 1.  **Clone the repository:**
     ```bash
     git clone <your-repository-url>
-    cd waflens-7c15e
+    cd <your-project-directory>
     ```
 2.  **Install root dependencies:**
-    These are the dependencies for your Next.js front-end application.
     ```bash
     npm install
     ```
 3.  **Install Firebase Functions dependencies:**
-    Navigate to the `functions` directory and install its specific dependencies.
     ```bash
     cd functions
     npm install
@@ -32,109 +42,69 @@ This project is a web application built with Next.js, TypeScript, and Firebase. 
 
 ## 🔥 Firebase Configuration
 
-### 1. Create a Firebase Project
-- Go to the [Firebase Console](https://console.firebase.google.com/) and create a new project.
-- Once created, you'll need the **Project ID**.
-
-### 2. Link Your Local Project
-- The `.firebaserc` file is already configured with your project ID: `waflens-7c15e`.
+### 1. Link Your Local Project
+- The `.firebaserc` file should be updated with your actual Firebase **Project ID**.
 - Log in to Firebase using the CLI:
     ```bash
     firebase login
     ```
 
-### 3. Environment Variables
+### 2. Environment Variables
 
 #### Gemini API Key
-This project uses Genkit to interact with Google's Gemini models, which requires an API key. You can get a key from [Google AI Studio](https://aistudio.google.com/app/apikey).
+This project uses Genkit to interact with Google's Gemini models. You can get a key from [Google AI Studio](https://aistudio.google.com/app/apikey).
 
--   **Local Development**: Create a file named `.env.local` in the root of your project and add your API key to it:
+-   **Local Development**: Create a file named `.env.local` in the root of your project and add your API key:
     ```
     GEMINI_API_KEY="your-api-key-here"
     ```
-    This file is included in `.gitignore` and will not be committed to your repository.
-
--   **Production (Firebase)**: You must add the Gemini API key as a secret in GitHub Actions so the deployment workflow can access it.
-    1. In your GitHub repository, go to **Settings > Secrets and variables > Actions**.
-    2. Click **New repository secret**.
-    3. Name the secret `GEMINI_API_KEY`.
-    4. Paste your API key as the value.
+-   **Production (Firebase)**: Add the Gemini API key as a secret in your CI/CD environment (e.g., GitHub Actions).
 
 ---
 
 ## 📜 Available Scripts
 
--   `npm run dev`: Runs the Next.js front-end in development mode on port 3001 to avoid conflicts with Firebase emulators. You can access it at `http://localhost:3001`.
+-   `npm run dev`: Runs the Next.js front-end in development mode.
 -   `npm run build`: Builds the application for production.
--   `npm start`: Starts the production Next.js server.
--   `npm run lint`: Lints the codebase for errors.
+-   `npm run lint`: Lints the codebase.
 
 ### Firebase Functions Scripts (from the `functions/` directory)
 -   `npm run build`: Compiles the TypeScript source code.
--   `npm run lint`: Lints the TypeScript code using ESLint v9 to ensure code quality.
--   `npm run serve`: Emulates functions locally for testing.
--   `npm run deploy`: Deploys only the functions to your Firebase project.
+-   `npm run lint`: Lints the TypeScript code.
 
 ---
 
 ## 🚀 Deployment with GitHub Actions
 
-This project is configured for Continuous Integration and Continuous Deployment (CI/CD) using GitHub Actions.
-
-### How It Works
-1.  **Trigger**: The workflow, defined in `.github/workflows/main.yml`, is automatically triggered on every push to the `main` branch.
-2.  **Build**: The workflow installs all dependencies and builds the Next.js application (`npm run build`).
-3.  **Deploy**:
-    - The built front-end application is deployed to **Firebase Hosting**.
-    - The Firebase Functions in the `functions/` directory are deployed to **Firebase Functions**.
+This project is configured for CI/CD using GitHub Actions. The workflow automatically deploys the application to Firebase on every push to the `main` branch.
 
 ### GitHub Secrets Configuration
 For the deployment to work, you must configure secrets in your GitHub repository settings:
 
-1.  **`FIREBASE_SERVICE_ACCOUNT_WAFLENS_7C15E`**:
+1.  **`FIREBASE_SERVICE_ACCOUNT`**:
     - In the Firebase Console, go to **Project settings > Service accounts**.
     - Click **Generate new private key** to download a JSON file.
-    - In your GitHub repository, go to **Settings > Secrets and variables > Actions**.
-    - Click **New repository secret**.
-    - Name the secret `FIREBASE_SERVICE_ACCOUNT_WAFLENS_7C15E`.
-    - Paste the entire content of the downloaded JSON file as the secret's value.
+    - Create a GitHub secret named `FIREBASE_SERVICE_ACCOUNT` and paste the entire content of the JSON file as the value.
 
 2.  **`GEMINI_API_KEY`**:
-    - Follow the steps above to add your Gemini API key as a secret named `GEMINI_API_KEY`.
+    - Create a secret named `GEMINI_API_KEY` with your Gemini API key.
 
 ---
 
 ## 💿 Data Connect
 
-This project uses Firebase Data Connect to interact with your database. The generated SDK for the `example` connector is located in `waflens-code/src/dataconnect-generated`.
+This project uses Firebase Data Connect to provide a type-safe GraphQL data layer.
 
-For detailed information on how to use the generated SDK, please refer to the auto-generated documentation in that directory:
-- **TypeScript/JavaScript SDK**: [`waflens-code/src/dataconnect-generated/README.md`](waflens-code/src/dataconnect-generated/README.md)
+-   **Schema**: The GraphQL schema is defined in `dataconnect/schema/schema.gql`. A markdown version is also available for quick reference at `dataconnect_schema.md`.
+-   **Generated SDK**: The TypeScript SDK is automatically generated by Data Connect and located in `waflens-code/src/dataconnect-generated`.
 
 ---
 
 ## 🔒 Security Rules
 
-The `firestore.rules` file provides a basic security template. By default, it denies all reads and writes to your database.
-
-```rules
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    // Deny all reads and writes by default.
-    // Allow reads only for authenticated users.
-    match /{document=**} {
-      allow read: if request.auth != null;
-      allow write: if false; // Explicitly deny writes for now
-    }
-  }
-}
-```
-This is a starting point. You should update these rules to match your application's data access patterns.
+The `firestore.rules` file provides a basic security template that denies all reads and writes by default. This should be updated as you implement authentication.
 
 ## Important Notes
 
-- **ESLint v9 in Functions**: The `functions` directory has been upgraded to use ESLint v9 with a modern, flat configuration (`eslint.config.js`). This helps enforce code quality and consistency.
-- **Performance Note**: A significant page load delay was resolved by embedding an inline SVG favicon in the main layout. This prevents a blocking request for a missing `favicon.ico` file.
-- **Next.js `devIndicators.buildActivity` Deprecation**: The `devIndicators.buildActivity` option in `next.config.ts` is deprecated and has been removed. Please ensure your `next.config.ts` does not contain this property to avoid warnings or errors. The current configuration has been updated to reflect this change.
-- **Port Configuration**: To avoid conflicts between the Next.js development server and the Firebase emulator, the default Next.js port has been changed to `3001`. The Firebase emulators will run on their default ports (e.g., UI on 4000, Auth on 9099, Firestore on 8080).
+- **ESLint v9**: The `functions` directory uses the modern, flat `eslint.config.js` for improved code quality.
+- **Performance**: A page load delay was resolved by embedding an inline SVG favicon.
