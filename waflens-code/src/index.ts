@@ -7,7 +7,7 @@
  * See a full list of supported triggers at https://firebase.google.com/docs/functions
  */
 
-import {setGlobalOptions} from "firebase-functions/v2/options";
+import { setGlobalOptions } from "firebase-functions/v2/options";
 
 // Start writing functions
 // https://firebase.google.com/docs/functions/typescript

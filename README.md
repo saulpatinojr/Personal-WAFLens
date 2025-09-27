@@ -5,7 +5,7 @@ This project is a web application built with Next.js, TypeScript, and Firebase. 
 ## 🚀 Project Setup
 
 ### Prerequisites
-- [Node.js](https://nodejs.org/) (v18 or later recommended)
+- [Node.js](https://nodejs.org/) (v20 or later recommended)
 - [npm](https://www.npmjs.com/)
 - [Firebase CLI](https://firebase.google.com/docs/cli) (`npm install -g firebase-tools`)
 
@@ -70,6 +70,8 @@ This project uses Genkit to interact with Google's Gemini models, which requires
 -   `npm run lint`: Lints the codebase for errors.
 
 ### Firebase Functions Scripts (from the `functions/` directory)
+-   `npm run build`: Compiles the TypeScript source code.
+-   `npm run lint`: Lints the TypeScript code using ESLint v9 to ensure code quality.
 -   `npm run serve`: Emulates functions locally for testing.
 -   `npm run deploy`: Deploys only the functions to your Firebase project.
 
@@ -104,11 +106,10 @@ For the deployment to work, you must configure secrets in your GitHub repository
 
 ## 💿 Data Connect
 
-This project uses Firebase Data Connect to interact with your database. The generated SDK for the `example` connector is located in `src/dataconnect-generated`.
+This project uses Firebase Data Connect to interact with your database. The generated SDK for the `example` connector is located in `waflens-code/src/dataconnect-generated`.
 
-For detailed information on how to use the generated SDK to call your Data Connect queries and mutations, please refer to the auto-generated documentation:
-- **TypeScript/JavaScript SDK**: [`src/dataconnect-generated/README.md`](src/dataconnect-generated/README.md)
-- **React Hooks SDK**: [`src/dataconnect-generated/react/README.md`](src/dataconnect-generated/react/README.md)
+For detailed information on how to use the generated SDK, please refer to the auto-generated documentation in that directory:
+- **TypeScript/JavaScript SDK**: [`waflens-code/src/dataconnect-generated/README.md`](waflens-code/src/dataconnect-generated/README.md)
 
 ---
 
@@ -133,6 +134,7 @@ This is a starting point. You should update these rules to match your applicatio
 
 ## Important Notes
 
+- **ESLint v9 in Functions**: The `functions` directory has been upgraded to use ESLint v9 with a modern, flat configuration (`eslint.config.js`). This helps enforce code quality and consistency.
 - **Performance Note**: A significant page load delay was resolved by embedding an inline SVG favicon in the main layout. This prevents a blocking request for a missing `favicon.ico` file.
 - **Next.js `devIndicators.buildActivity` Deprecation**: The `devIndicators.buildActivity` option in `next.config.ts` is deprecated and has been removed. Please ensure your `next.config.ts` does not contain this property to avoid warnings or errors. The current configuration has been updated to reflect this change.
 - **Port Configuration**: To avoid conflicts between the Next.js development server and the Firebase emulator, the default Next.js port has been changed to `3001`. The Firebase emulators will run on their default ports (e.g., UI on 4000, Auth on 9099, Firestore on 8080).

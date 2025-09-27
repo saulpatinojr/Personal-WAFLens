@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## Change 6: Upgraded ESLint to v9 and Refactored Configuration
+-   **Date:** 2024-09-20
+-   **Description:** Upgraded ESLint to version 9 in the `functions` directory to align with modern JavaScript standards and improve code quality enforcement. This involved a significant refactoring of the ESLint configuration from the legacy `.eslintrc.js` format to the new flat `eslint.config.js` file.
+-   **Key Steps:**
+    -   Updated all `devDependencies` in `functions/package.json` to their latest versions to support ESLint v9.
+    -   Created a new `eslint.config.js` with a modern, flat configuration structure.
+    -   Resolved multiple dependency and configuration issues that arose during the upgrade, including module resolution errors and incorrect file path targeting.
+    -   Performed a clean installation of `node_modules` to ensure a stable dependency tree.
+-   **Notes:** This upgrade modernizes the linting process, improves maintainability, and ensures the project follows the latest best practices for code quality.
+
 ## Change 5: Fixed React Hydration Mismatch Error
 -   **Date:** 2024-09-20
 -   **Description:** Fixed a React hydration mismatch error on the main page. The error was caused by the `PillarObservanceChart` component, which was generating random IDs on the server and client, leading to a mismatch. The fix involved dynamically importing the component with SSR disabled in `src/app/page.tsx`, ensuring it only renders on the client-side.
