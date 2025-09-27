@@ -24,4 +24,4 @@ The Data Connect schema and SDK are in place, but the front-end components are s
 To ensure the stability and reliability of the application, a robust testing suite is necessary.
 
 - **Action:** Add unit and integration tests for new and existing features.
-- **Details:** Focus on testing the AI API routes, authentication flows, and data-driven components.
+- **Details:** Focus on testing the AI API routes, authentication flows, and data-driven components.  
