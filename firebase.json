@@ -39,7 +39,21 @@
   },
   "emulators": {
     "dataconnect": {
+      "host": "127.0.0.1",
       "dataDir": "dataconnect/.dataconnect/pgliteData"
+    },
+    "firestore": {
+      "host": "127.0.0.1",
+      "port": 8080
+    },
+    "hosting": {
+      "host": "127.0.0.1"
+    },
+    "functions": {
+      "host": "127.0.0.1"
+    },
+    "auth": {
+      "host": "127.0.0.1"
     }
   },
   "dataconnect": {

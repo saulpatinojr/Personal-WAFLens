@@ -1,0 +1,15 @@
+I0929 14:38:51.364157   14484 load.go:31] Reloading schema and connectors...
+I0929 14:38:51.448726   14484 control.go:94] [/emulator/waflens 8524] UpdateResources(): done
+Schema: sources: schema/schema.gql [1992B] 
+Connector "example": sources: example/mutations.gql [1243B] example/queries.gql [1801B] 
+I0929 14:38:51.552770   14484 codegen.go:82] [connector "example" javascriptSdk] Generating sources into "/home/user/Personal-WAFLens/waflens-code/src/dataconnect-generated"
+I0929 14:38:51.590421   14484 collector.go:107] schema extensions wrote into "/home/user/Personal-WAFLens/dataconnect/.dataconnect/schema"
+Generated sources: main/relation.gql [13746B] main/query.gql [5099B] main/mutation.gql [13679B] prelude.gql [73251B] main/implicit.gql [1261B] main/input.gql [28173B] 
+I0929 14:38:51.594070   14484 collector.go:107] connector "example" javascriptSdk wrote into "/home/user/Personal-WAFLens/waflens-code/src/dataconnect-generated"
+Generated sources: index.d.ts [8025B] esm/index.esm.js [3560B] esm/package.json [17B] index.cjs.js [4050B] package.json [637B] README.md [40804B] 
+I0929 14:38:51.627562   14484 installsdk.go:55] Package @dataconnect/generated is already installed. Skipping installation
+I0929 14:38:51.627992   14484 load.go:109] Finished reloading
+I0929 14:38:51.646551   14484 dev.go:102] Listening on address (HTTP + gRPC): 127.0.0.1:9399
+I0929 14:38:57.720795   14484 control.go:94] [/emulator/waflens c6fc] UpdateResources(): done
+Schema: sources: schema/schema.gql [1992B] 
+Connector "example": sources: example/queries.gql [1801B] example/mutations.gql [1243B] 
