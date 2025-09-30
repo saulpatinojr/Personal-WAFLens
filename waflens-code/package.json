@@ -1,6 +1,5 @@
 {
   "main": "lib/index.js",
-  "type": "module",
   "scripts": {
     "genkit:start": "genkit start -- tsx --watch src/genkit-sample.ts",
     "lint": "eslint .",
@@ -12,6 +11,7 @@
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log"
   },
+  "type": "module",
   "name": "functions",
   "engines": {
     "node": "22"

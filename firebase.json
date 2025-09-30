@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "waf-61e8b",
     "public": "out",
     "ignore": [
       "firebase.json",
@@ -23,12 +24,19 @@
       "source": "functions"
     },
     {
-      "source": "waflens-code",
       "codebase": "waflens-code",
       "predeploy": [
         "npm --prefix \"$RESOURCE_DIR\" run lint",
         "npm --prefix \"$RESOURCE_DIR\" run build"
-      ]
+      ],
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "source": "waflens-code"
     }
   ],
   "firestore": {
@@ -73,6 +81,28 @@
     },
     {
       "backendId": "cloudcreatorai-backend",
+      "rootDir": "/",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "functions"
+      ]
+    },
+    {
+      "backendId": "waflens-backend",
+      "rootDir": "/",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "functions"
+      ]
+    },
+    {
+      "backendId": "waflens-backend",
       "rootDir": "/",
       "ignore": [
         "node_modules",
