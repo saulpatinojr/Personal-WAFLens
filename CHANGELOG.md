@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## Change 7: Modernized ESLint Configuration for `waflens-code`
+-   **Date:** 2024-09-20
+-   **Description:** Upgraded the ESLint configuration in the `waflens-code` directory to align with the modern, flat `eslint.config.js` format already adopted by the `functions` component. This resolves numerous deprecation warnings and ensures consistent code quality standards across all back-end services.
+-   **Key Steps:**
+    -   Installed the latest ESLint-related dependencies (`eslint`, `@eslint/js`, `typescript-eslint`) in `waflens-code/package.json`.
+    -   Created a new `eslint.config.js` file, mirroring the configuration of the `functions` component.
+-   **Notes:** This completes the ESLint modernization effort across the entire project, ensuring all components adhere to the latest best practices.
+
 ## Change 6: Upgraded ESLint to v9 and Refactored Configuration
 -   **Date:** 2024-09-20
 -   **Description:** Upgraded ESLint to version 9 in the `functions` directory to align with modern JavaScript standards and improve code quality enforcement. This involved a significant refactoring of the ESLint configuration from the legacy `.eslintrc.js` format to the new flat `eslint.config.js` file.
