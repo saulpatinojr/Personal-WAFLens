@@ -1,4 +1,4 @@
-import { ConnectorConfig, DataConnect, QueryRef, QueryPromise, MutationRef, MutationPromise } from 'firebase/data-connect';
+import { ConnectorConfig, DataConnect, QueryRef, QueryPromise, MutationRef, MutationPromise } from "firebase/data-connect";
 
 export const connectorConfig: ConnectorConfig;
 
@@ -99,18 +99,18 @@ export interface ListUsersData {
 
 export interface MovieMetadata_Key {
   id: UUIDString;
-  __typename?: 'MovieMetadata_Key';
+  __typename?: "MovieMetadata_Key";
 }
 
 export interface Movie_Key {
   id: UUIDString;
-  __typename?: 'Movie_Key';
+  __typename?: "Movie_Key";
 }
 
 export interface Review_Key {
   userId: string;
   movieId: UUIDString;
-  __typename?: 'Review_Key';
+  __typename?: "Review_Key";
 }
 
 export interface SearchMovieData {
@@ -137,7 +137,7 @@ export interface UpsertUserVariables {
 
 export interface User_Key {
   id: string;
-  __typename?: 'User_Key';
+  __typename?: "User_Key";
 }
 
 interface CreateMovieRef {
